@@ -12,16 +12,11 @@ class Solution{
     //Function to return length of longest subsequence of consecutive integers.
     int findLongestConseqSubseq(int arr[], int N)
     {
-        /*
-        5
-        1 2 3 4 5
-        */
         int n=0;
         for(int i=0; i<N; i++){
             n=max(n, arr[i]);
         }
         vector<int> v(n+1, 0);
-        //v=[0,1,1,1,1,1];
         for(int i=0; i<N; i++){
             v[arr[i]]=1;
         }
