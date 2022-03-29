@@ -27,6 +27,8 @@ class Solution{
         while(j<=right){
             tmp[k++]=arr[j++];
         }
+        //in only one case, left=0, right=n-1, else it can be anything else
+        //keep this in mind while copying the array
         i=0, j=left;
         while(j<=right){
             arr[j++]=tmp[i++];
