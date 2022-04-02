@@ -17,12 +17,7 @@ public:
                 i++; j--;
             }
             else{
-                if(check(s, i+1, j) || check(s, i, j-1)){
-                    return 1;
-                }
-                else{
-                    return 0;
-                }
+                return(check(s, i+1, j) || check(s, i, j-1));
             }
         }
         return 1;
