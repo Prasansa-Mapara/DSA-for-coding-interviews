@@ -1,7 +1,7 @@
 class Solution {
 public:
     void nextPermutation(vector<int>& nums) {
-        //we gotta find (from the right), first pair of a[i-1]>a[i];
+        //we gotta find (from the right), first pair of a[i-1]<a[i];
         //1 2 3 5 4 0 -> 1 2 4 0 3 5
         //now no rearranegment on right is possible cuz they all in decreasing order;
         // so now, find a number greater than a[i-1] again start from right as it will be the least possible
