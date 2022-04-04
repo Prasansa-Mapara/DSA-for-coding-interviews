@@ -1,4 +1,4 @@
-class Solution {
+/*class Solution {
 public:
     ListNode* swapNodes(ListNode* head, int k) {
         ListNode* left = head;
@@ -23,7 +23,7 @@ public:
         
         return head;
     }
-};
+};*/
 
 /**
  * Definition for singly-linked list.
@@ -35,26 +35,26 @@ public:
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
-/*class Solution {
+class Solution {
 public:
     ListNode* swapNodes(ListNode* head, int k) {
         int n=0;
-        ListNode *curr=head;
+        ListNode *curr=head, *tmp=head;
         while(curr){
             curr=curr->next;
             n++;
-        }
+        } 
         curr=head;
-        ListNode *i=NULL, *j=NULL;
-        int x=n-k, y=1;
-        while(x--){
-            if(y==k){
-                i=curr;
-            }
+        int i=k;
+        while(--i){
             curr=curr->next;
-            y++;
         }
-        swap(curr->val, i->val);
+        tmp=head;
+        int j=n-k;
+        while(j--){
+            tmp=tmp->next;
+        }
+        swap(curr->val, tmp->val);
         return head;
     }
-};*/
+};
