@@ -3,19 +3,20 @@ public:
     vector<vector<int>> merge(vector<vector<int>>& v) {
         int n=v.size();
         sort(v.begin(), v.end());
-        vector<vector<int>> sol;
-        sol.push_back(v[0]);
-        int ind=0;
-        for(int i=1; i<n; i++){
-            if(v[i][0]<=sol[ind][1]){
-                sol[ind][1]=max(sol[ind][1], v[i][1]);
-                sol[ind][0]=min(sol[ind][0], v[i][0]);
+        int curr=0, i=1;
+        while(i<n){
+            if(v[i][0]<=v[curr][1]){
+                v[curr][0]=min(v[i][0], v[curr][0]);
+                v[curr][1]=max(v[i][1], v[curr][1]);
+                i++;
             }
             else{
-                sol.push_back(v[i]);
-                ind++;
+                curr++;
+                v[curr][0]=v[i][0];
+                v[curr][1]=v[i][1];
+                i++;
             }
         }
-        return sol;
+        return {v.begin(), v.begin()+curr+1};
     }
 };
