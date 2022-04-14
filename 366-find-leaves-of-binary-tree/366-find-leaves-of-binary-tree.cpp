@@ -19,7 +19,9 @@ public:
         sol[curH].push_back(curr->val);
         return curH;
     }
-    
+    //notice that all the nodes at the same height are in one vector, and the traversal is DFS, so that is
+    //essentially what we are doing, calculate height of the curr node and push_back its value at that height
+    //in sol; 
     vector<vector<int>> findLeaves(TreeNode* root) {
         if(!root) return sol;
         int curH=1+max(findHeight(root->left), findHeight(root->right));
