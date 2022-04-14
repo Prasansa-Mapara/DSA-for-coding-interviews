@@ -1,20 +1,19 @@
+bool func(string a, string b){
+    return a.size()<b.size();
+}
 class Solution {
 public:
     int longestStrChain(vector<string>& words) {
-        vector<pair<int, string>> v;
-        for(auto s: words){
-            v.push_back({s.size(), s});
-        }
-        sort(v.begin(), v.end());
-        int n=v.size();
+        sort(words.begin(), words.end(), func);
+        int n=words.size();
         vector<int> dp(n, 1);
         unordered_map<string, int> hash;
         for(int i=0; i<n; i++){
-            hash[v[i].second]=i;
+            hash[words[i]]=i;
         }
         for(int i=0; i<n; i++){
-            string s=v[i].second; 
-            int sz=v[i].first;
+            string s=words[i]; 
+            int sz=s.size();
             for(int j=0; j<sz; j++){
                 string tmp=s;
                 tmp.erase(tmp.begin()+j);
