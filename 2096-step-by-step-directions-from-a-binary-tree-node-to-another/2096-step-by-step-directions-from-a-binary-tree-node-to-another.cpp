@@ -17,7 +17,8 @@ class Solution {
 public:
     void getPath(string &s, TreeNode *curr, int &k, bool &found){
         if(curr->val==k){
-            found=1;
+            found=1; //now that i have found the path, i'll return and i don't wanna go into any other condition hence
+            //i've kept && !found;
             return;
         }
         if(curr->left && !found){
@@ -28,7 +29,7 @@ public:
             s+="R";
             getPath(s, curr->right, k, found);
         }
-        if(!found) s.pop_back();
+        if(!found) s.pop_back(); //go a step back 
         return;
     }
     
@@ -47,10 +48,10 @@ public:
         }
         st=st.substr(i);
         dt=dt.substr(j);
-        for(i=0; i<st.size(); i++){
+        for(i=0; i<st.size(); i++){ //replace st with U's
             st[i]='U';
         }
-        st+=dt;
+        st+=dt; //append dt to st;
         return st;
     }
 };
