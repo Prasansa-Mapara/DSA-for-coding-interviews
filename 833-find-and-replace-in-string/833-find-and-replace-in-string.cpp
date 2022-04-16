@@ -6,10 +6,10 @@ public:
         for(int i=0; i<n; i++){
             if(s.substr(ind[i], src[i].size())==src[i]){
                 s.erase(ind[i], src[i].size());
-                if(ind[i]>=s.size()){
+                if(ind[i]>=s.size()){//removal from end so, just pushback;
                     s+=tgt[i];
                 }
-                else s.insert(ind[i], tgt[i]);
+                else s.insert(ind[i], tgt[i]); //removal from somewhere in mid or start;
                 int k=tgt[i].size()-src[i].size(), tmp=ind[i];
                 for(int j=i+1; j<n; j++){
                     if(ind[j]>=tmp) ind[j]+=k;
