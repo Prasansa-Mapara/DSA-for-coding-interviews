@@ -12,10 +12,10 @@ public:
         
         i=0; j=0;
         while(i<n && j<n){
-            if(s[i]=='X') i++;
-            else if(e[j]=='X') j++;
-            else if(s[i]=='L' && i<j) return 0;
-            else if(s[i]=='R' && i>j) return 0;
+            while(i<n && s[i]=='X') i++;
+            while(j<n && e[j]=='X') j++;
+            if(i<n && s[i]=='L' && i<j) return 0;
+            else if(i<n && s[i]=='R' && i>j) return 0;
             else{
                 i++; j++;
             }
