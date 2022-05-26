@@ -6,11 +6,13 @@ public:
         long long int cnt=0;
         while(i<=mid && j<=right){
             if(a[i]>((long long int)2*a[j])){
-                cnt+=mid-i+1;
+                cnt+=mid-i+1; //cuz all elements after and including i will all be gretaer than twice of a[j],
+                //since both subarrays are sorted :))
                 j++;
             }
             else{
-                i++;
+                i++; //check if number greater than this would be greater, also, its safe to increment i as 
+                //no number after j will give the require result, again cuz already sorted!
             }
         }
         i=left, j=mid+1;
@@ -47,6 +49,8 @@ public:
     }
     
     int reversePairs(vector<int>& nums) {
+        //STUFF LIKE COUNT INVERSIONS, REVERSE PAIRS IS DONE USING MERGE SORT; 
+        //TIME COMPLEXITY WILL BE NLOGN, SO N WOULD BE IN RANGE OF 10^5 OR LESS, BUT NOT MORE (USUALLY);
         int n=nums.size(), l=0, r=n-1;
         long long int sol=0;
         mergeSort(nums, l, r, sol);
