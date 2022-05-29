@@ -6,7 +6,7 @@ public:
         vector<vector<int>> sol;
         sort(nums.begin(), nums.end());
         for(int i=0; i<n-2; i++){
-            int req=nums[i]*(-1);
+            int req=-nums[i];
             int j=i+1, k=n-1;
             while(j<k){
                 int curr=nums[j]+nums[k];
