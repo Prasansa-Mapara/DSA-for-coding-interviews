@@ -8,6 +8,7 @@
  */
 class Solution {
 public:
+    //explanation of why this algo works is given in notes :)
     ListNode *detectCycle(ListNode *head) {
         ListNode *slow=head, *fast=head;
         bool flag=0;
