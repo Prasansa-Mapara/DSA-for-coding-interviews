@@ -17,24 +17,41 @@ public:
 class Solution {
 public:
     Node* copyRandomList(Node* head) {
-        unordered_map<Node*, Node*> hash;
         Node *curr=head;
         if(!curr) return NULL;
-        hash[curr]=new Node(curr->val);
+        //for next ptrs;
         while(curr){
-            Node *a=curr->next, *b=curr->random;
-            if(a && hash.find(a)==hash.end()){
-                hash[a]=new Node(a->val);
-            }
-            else if(!a) hash[a]=NULL;
-            if(b && hash.find(b)==hash.end()){
-                hash[b]=new Node(b->val);
-            }
-            else if(!b) hash[b]=NULL;
-            hash[curr]->next=hash[a];
-            hash[curr]->random=hash[b];
-            curr=curr->next;
+            Node *tmp=new Node(curr->val);
+            tmp->next=curr->next;
+            curr->next=tmp;
+            curr=curr->next->next;
         }
-        return hash[head];
+        //for random ptrs;
+        curr=head;
+        while(curr){
+            if(curr->random){
+                curr->next->random=curr->random->next;
+            }
+            else{
+                curr->next->random=NULL;
+            }
+            curr=curr->next->next;
+        }
+        //getting final ans;
+        Node *sol=head, *ncurr=head->next;
+        sol=sol->next;
+        curr=head;
+        while(curr){
+            curr->next=ncurr->next;
+            if(curr->next){
+                ncurr->next=ncurr->next->next;
+            }
+            else{
+                ncurr->next=NULL;
+            }
+            curr=curr->next;
+            ncurr=ncurr->next;
+        }
+        return sol;
     }
 };
