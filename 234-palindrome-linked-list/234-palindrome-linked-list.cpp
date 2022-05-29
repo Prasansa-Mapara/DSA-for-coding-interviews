@@ -11,14 +11,28 @@
 class Solution {
 public:
     bool isPalindrome(ListNode* head) {
-        string s1, s2;
-        while(head){
-            s1+=to_string(head->val);
-            head=head->next;
+        ListNode *slow=head, *fast=head;
+        while(fast && fast->next){
+            slow=slow->next;
+            fast=fast->next->next;
         }
-        s2=s1;
-        reverse(s2.begin(), s2.end());
-        if(s1==s2) return true;
-        return false;
+        ListNode *prev=NULL, *curr=slow, *nex;
+        if(fast) curr=slow->next;
+        while(curr){
+            nex=curr->next;
+            curr->next=prev;
+            prev=curr;
+            curr=nex;
+        }
+        while(prev){
+            if(head->val==prev->val){
+                head=head->next;
+                prev=prev->next;
+            }
+            else{
+                return false;
+            }
+        }
+        return true;
     }
 };
