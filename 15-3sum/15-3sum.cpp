@@ -2,7 +2,6 @@ class Solution {
 public:
     vector<vector<int>> threeSum(vector<int>& nums) {
         int n=nums.size();
-        set<vector<int>> hash;
         vector<vector<int>> sol;
         sort(nums.begin(), nums.end());
         for(int i=0; i<n-2; i++){
@@ -18,12 +17,17 @@ public:
                 }
                 else{
                     vector<int> v={nums[i], nums[j], nums[k]};
-                    if(hash.find(v)==hash.end()){
-                        hash.insert(v);
-                        sol.push_back(v);
+                    sol.push_back(v);
+                    while(j<k && nums[j]==v[1]){
+                        j++;
                     }
-                    j++;
+                    while(k>j && nums[k]==v[2]){
+                        k--;
+                    }
                 }
+            }
+            while((i+1)<(n-2) && nums[i+1]==nums[i]){
+                i++;
             }
         }
         return sol;
