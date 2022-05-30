@@ -1,18 +1,13 @@
 class Solution {
 public:
-    bool canAttendMeetings(vector<vector<int>>& intervals) {
-        vector<pair<int, int>> time;
-        for(auto i: intervals){
-            time.push_back({i[0], 1});
-            time.push_back({i[1], 0});
+    bool canAttendMeetings(vector<vector<int>>& v) {
+        sort(v.begin(), v.end());
+        int n=v.size();
+        for(int i=1; i<n; i++){
+            if(v[i][0]<v[i-1][1]){
+                return false;
+            }
         }
-        sort(time.begin(), time.end());
-        int cnt=0;
-        for(auto i: time){
-            if(i.second==1) cnt++;
-            else cnt--;
-            if(cnt>1) return 0;
-        }
-        return 1;
+        return true;
     }
 };
