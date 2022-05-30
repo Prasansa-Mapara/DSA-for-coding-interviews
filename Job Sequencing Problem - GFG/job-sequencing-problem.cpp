@@ -45,8 +45,8 @@ class Solution
         vector<int> d(mxd+1, -1);
         for(int i=0; i<n; i++){
             int curP=arr[i].profit, curD=arr[i].dead;
-            for(int j=curD; j>0; j--){
-                if(d[j]==-1){
+            for(int j=curD; j>0; j--){ //we wanna select the last day;
+                if(d[j]==-1){ //if this day's free
                     d[j]=1;
                     prof+=curP;
                     jb++;
