@@ -10,19 +10,25 @@ class Solution
     //be performed in a meeting room.
     int maxMeetings(int start[], int end[], int n)
     {
-        int meet=-1, cnt=0;
+        //there's only 1 room, and we gotta find the maximum meetings we can 
+        //manage in that one room;
+        //so best is to keep selecting meetings that end quickly;
+        //so sort according to end times;
+        
         vector<pair<int, int>> v;
         for(int i=0; i<n; i++){
             v.push_back({end[i], start[i]});
         }
         sort(v.begin(), v.end());
+        int curr=-1, meet=0;
         for(int i=0; i<n; i++){
-            if(meet<v[i].second){
-                meet=v[i].first;
-                cnt++;
+            if(v[i].second>curr){ //start time of this meeting is greater than current end time
+            //here curr is time when the latest meeting ended;
+                meet++;
+                curr=v[i].first; //update end time;
             }
         }
-        return cnt;
+        return meet;
     }
 };
 
