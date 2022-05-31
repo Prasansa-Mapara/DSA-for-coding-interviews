@@ -6,21 +6,21 @@ using namespace std;
 class Solution
 {
 public:
-
     vector<int> sol;
     
-    void solve(int ind, vector<int> &arr, int currSum){
+    void solve(vector<int> &arr, int ind, int sum){
         int n=arr.size();
         if(ind==n){
-            sol.push_back(currSum);
+            sol.push_back(sum);
             return;
         }
-        solve(ind+1, arr, currSum);
-        solve(ind+1, arr, currSum+arr[ind]);
+        solve(arr, ind+1, sum);
+        solve(arr, ind+1, sum+arr[ind]);
     }
     
-    vector<int> subsetSums(vector<int> arr, int N){
-        solve(0, arr, 0);
+    vector<int> subsetSums(vector<int> arr, int N)
+    {
+        solve(arr, 0, 0);
         return sol;
     }
 };
