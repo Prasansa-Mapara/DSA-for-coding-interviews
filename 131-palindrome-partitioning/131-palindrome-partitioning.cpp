@@ -1,43 +1,30 @@
 class Solution {
 public:
     vector<vector<string>> sol;
-    unordered_set<string> hash;
     
-    bool isPal(string s){
-        int i=0, j=s.size()-1;
-        while(i<j){
-            if(s[i]!=s[j]){
-                return false;
-            }
-            i++; j--;
-        }
-        return true;
-    }
-    
-    void solve(string &s, int ind, vector<string> tmp){
+    void solve(string &s, int st, vector<string> tmp, vector<vector<bool>> &dp){
         int n=s.size();
-        if(ind>=n){
+        if(st>=n){
             sol.push_back(tmp);
             return;
         }
-        for(int i=ind; i<n; i++){
-            string curr=s.substr(ind, i-ind+1);
-            if(hash.find(curr)==hash.end()){
-                if(isPal(curr)){
-                    hash.insert(curr);
-                }
-            }
-            if(hash.find(curr)!=hash.end()){ //curr string's a palindrome;
+        for(int ed=st; ed<n; ed++){
+            string curr=s.substr(st, ed-st+1);
+            if(s[st]==s[ed] && ((ed-st)<=2 || dp[st+1][ed-1])){
                 tmp.push_back(curr);
-                solve(s, i+1, tmp);
+                dp[st][ed]=1;
+                solve(s, ed+1, tmp, dp);
                 tmp.pop_back();
             }
         }
+        return;
     }
     
     vector<vector<string>> partition(string s) {
+        int n=s.size();
+        vector<vector<bool>> dp(n, vector<bool>(n, 0));
         vector<string> tmp;
-        solve(s, 0, tmp);
+        solve(s, 0, tmp, dp);
         return sol;
     }
 };
