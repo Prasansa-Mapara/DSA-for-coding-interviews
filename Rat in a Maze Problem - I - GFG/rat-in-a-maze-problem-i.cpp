@@ -18,7 +18,7 @@ class Solution{
         mat[x][y]=0; //mark node as visited;
         if(x==(n-1) && y==(n-1)){
             sol.push_back(tmp);
-            mat[x][y]=1;
+            mat[x][y]=1; //backtrack;
             return;
         }
         dfs(mat, x+1, y, tmp+"D");
@@ -26,7 +26,7 @@ class Solution{
         dfs(mat, x, y+1, tmp+"R");
         dfs(mat, x, y-1, tmp+"L");
         
-        mat[x][y]=1;
+        mat[x][y]=1; //backtrack;
         return;
     }
     
