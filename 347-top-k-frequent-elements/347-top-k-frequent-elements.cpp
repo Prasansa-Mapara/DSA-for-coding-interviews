@@ -1,25 +1,24 @@
-#define pii pair<int, int>
+//can be solved in linear time using bucket sort; 
 
 class Solution {
 public:
     vector<int> topKFrequent(vector<int>& nums, int k) {
+        int n=nums.size();
+        vector<vector<int>> buck(n+1);
         unordered_map<int, int> hash;
         for(auto i: nums){
             hash[i]++;
         }
-        priority_queue<pii, vector<pii>, greater<pii>> pq;
         for(auto i=hash.begin(); i!=hash.end(); i++){
-            pq.push({i->second, i->first});
-            if(pq.size()>k){
-                pq.pop();
-            }
+            buck[i->second].push_back(i->first);
         }
         vector<int> sol;
-        while(pq.size()){
-            sol.push_back(pq.top().second);
-            pq.pop();
+        for(int i=n; i>=0 && k; i--){
+            for(int j=0; j<buck[i].size() && k; j++){
+                sol.push_back(buck[i][j]);
+                k--;
+            }
         }
-        reverse(sol.begin(), sol.end());
         return sol;
     }
 };
