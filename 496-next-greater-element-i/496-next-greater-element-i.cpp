@@ -11,15 +11,14 @@ public:
             }
             s.push(nums2[i]);
         }
+        while(s.size()){
+            hash[s.top()]=-1;
+            s.pop();
+        }
         n=nums1.size();
         vector<int> sol;
         for(int i=0; i<n; i++){
-            if(hash.find(nums1[i])!=hash.end()){
-                sol.push_back(hash[nums1[i]]);
-            }
-            else{
-                sol.push_back(-1);
-            }
+            sol.push_back(hash[nums1[i]]);
         }
         return sol;
     }
