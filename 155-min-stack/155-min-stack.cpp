@@ -1,22 +1,23 @@
 class MinStack {
 public:
-    map<int, int> hash;
-    stack<int> s;
+    stack<int> s, mt; 
     
     MinStack() {
-        
+        //we def need another stack to keep a tracker for minimum;
+        //so while popping, it wont affect our minimum value if we're popping greater values; 
+        //when we are popping a smaller value, we'll just pop it from min tracker also; 
     }
     
     void push(int val) {
         s.push(val);
-        hash[val]++;
+        if((mt.size() && val<=mt.top()) || mt.empty()){
+            mt.push(val);
+        }
     }
     
     void pop() {
-        int val=s.top();
-        hash[val]--;
-        if(hash[val]==0){
-            hash.erase(hash.find(val));
+        if(s.top()==mt.top()){ //if its a min till now, then we gotta pop it;
+            mt.pop();
         }
         s.pop();
     }
@@ -26,7 +27,7 @@ public:
     }
     
     int getMin() {
-         return hash.begin()->first;   
+        return mt.top();
     }
 };
 
