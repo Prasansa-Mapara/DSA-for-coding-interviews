@@ -4,11 +4,14 @@ public:
     int i=0;
     
     StockSpanner() {
-        
+        //we want previous prices to be less than or equal to current price;
+        //so will maintain a monotonically decreasing stack and store indices in the stack;
+        //so whenever there's an element greater than top of stack, will keep popping, 
+        //till tht element is less than top of stack, then will update result;
     }
     
     int next(int price) {
-        while(st.size() && price>=st.top().first){
+        while(st.size() && price>=st.top().first){ //maintain a monotonically decreasing stack;
             st.pop();
         }
         int x=-1;
