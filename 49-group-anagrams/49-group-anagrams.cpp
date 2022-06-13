@@ -15,6 +15,7 @@ public:
         return sol;*/
         
         //we can still get a better solution, if we store a cntr array instead of this;
+        //O(NK);
         
         unordered_map<string, vector<string>> hash;
         vector<vector<string>> sol;
