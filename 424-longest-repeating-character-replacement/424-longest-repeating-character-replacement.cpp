@@ -6,6 +6,8 @@ public:
         for(int r=0; r<n; r++){
             hash[s[r]]++;
             cnt=max(cnt, hash[s[r]]); //cnt will be the max frequency of an element in thsi window; 
+            //we are not updating cnt with every iteration, cuz for sol to change, cnt will have to be increased;
+            //so in case cnt remains the same, sol will also remain the same; 
             int x=(r-l+1)-cnt; //num of chars to replace in this window will be total window size- number of characters that appear most frequently; 
             while(x>k){
                 hash[s[l]]--;
