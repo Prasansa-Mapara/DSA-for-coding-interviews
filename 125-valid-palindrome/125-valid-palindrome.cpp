@@ -8,7 +8,6 @@ public:
                 tmp.push_back(c);
             }
         }
-        cout<<tmp<<endl;
         string tmp2=tmp;
         reverse(tmp.begin(), tmp.end());
         if(tmp==tmp2) return 1;
