@@ -20,6 +20,8 @@ public:
         }
         
         vector<int> sol;
+        
+        //in worst case, this loop will go till O(nk);
         for(int i=n; i>0; i--){
             for(int j=0; j<buck[i].size(); j++){
                 sol.push_back(buck[i][j]);
