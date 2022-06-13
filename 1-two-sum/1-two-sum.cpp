@@ -1,26 +1,17 @@
-#define all(x) x.begin(), x.end()
 class Solution {
 public:
-    vector<int> twoSum(vector<int>& a, int k) {
-        int n=a.size();
-        vector<pair<int, int>> v;
+    vector<int> twoSum(vector<int>& nums, int k) {
+        unordered_map<int, int> hash;
+        int n=nums.size();
+        
         for(int i=0; i<n; i++){
-            v.push_back({a[i], i});
+            int x=k-nums[i];
+            if(hash.find(x)!=hash.end()){
+                return {hash[x], i};
+            }
+            hash[nums[i]]=i;
         }
-        sort(all(v));
-        int i=0, j=n-1;
-        while(i<j){
-            int sum=v[i].first+v[j].first;
-            if(sum==k){
-                return {v[i].second, v[j].second};
-            }
-            else if(sum>k){
-                j--;
-            }
-            else{
-                i++;
-            }
-        }
+        
         return {};
     }
 };
