@@ -4,13 +4,19 @@ public:
         int i=0, j=s.size()-1;
         transform(s.begin(), s.end(), s.begin(), ::tolower);
         while(i<j){
-            while(i<j && !isalnum(s[i])) i++;
-            while(j>i && !isalnum(s[j])) j--;
-            if(s[i]==s[j]){
-                i++; j--;
+            if(isalnum(s[i]) && isalnum(s[j])){
+                if(s[i]==s[j]){
+                    i++; j--;
+                }
+                else{
+                    return 0;
+                }
             }
-            else{
-                return 0;
+            if(!isalnum(s[i])){
+                i++;
+            }
+            if(!isalnum(s[j])){
+                j--;
             }
         }
         return 1;
