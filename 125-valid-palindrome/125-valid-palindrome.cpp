@@ -1,16 +1,18 @@
 class Solution {
 public:
     bool isPalindrome(string s) {
-        string tmp;
+        int i=0, j=s.size()-1;
         transform(s.begin(), s.end(), s.begin(), ::tolower);
-        for(auto c: s){
-            if((c>='a' && c<='z') || (c>='0' && c<='9')){
-                tmp.push_back(c);
+        while(i<j){
+            while(i<j && !isalnum(s[i])) i++;
+            while(j>i && !isalnum(s[j])) j--;
+            if(s[i]==s[j]){
+                i++; j--;
+            }
+            else{
+                return 0;
             }
         }
-        string tmp2=tmp;
-        reverse(tmp.begin(), tmp.end());
-        if(tmp==tmp2) return 1;
-        return 0;
+        return 1;
     }
 };
