@@ -1,33 +1,31 @@
 class MinStack {
 public:
-    stack<int> s, mt; 
+    stack<int> st, mn;
     
     MinStack() {
-        //we def need another stack to keep a tracker for minimum;
-        //so while popping, it wont affect our minimum value if we're popping greater values; 
-        //when we are popping a smaller value, we'll just pop it from min tracker also; 
+        
     }
     
     void push(int val) {
-        s.push(val);
-        if((mt.size() && val<=mt.top()) || mt.empty()){
-            mt.push(val);
+        st.push(val);
+        if(mn.empty() || val<=mn.top()){
+            mn.push(val);
         }
     }
     
     void pop() {
-        if(s.top()==mt.top()){ //if its a min till now, then we gotta pop it;
-            mt.pop();
+        if(mn.size() && st.top()==mn.top()){
+            mn.pop();
         }
-        s.pop();
+        st.pop();
     }
     
     int top() {
-        return s.top();
+        return st.top();
     }
     
     int getMin() {
-        return mt.top();
+        return mn.top();
     }
 };
 
