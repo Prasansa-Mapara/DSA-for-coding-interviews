@@ -4,7 +4,7 @@ public:
         //tc will be O(n^2)
         //first sol for interviewer:
         
-        int n=nums.size(); 
+        /*int n=nums.size(); 
         sort(nums.begin(), nums.end());
         vector<vector<int>> sol;
         for(int i=0; i<n; i++){
@@ -26,6 +26,29 @@ public:
                 }
             }
         }
-        return sol;
+        return sol;*/
+        
+        //follow up sol if sorting the array is not allowed:
+        
+        int n=nums.size(); 
+        set<vector<int>> res;
+        unordered_map<int, int> seen;
+        unordered_set<int> dup;
+        
+        for(int i=0; i<n; i++){
+            if(dup.find(nums[i])!=dup.end()) continue;
+            dup.insert(nums[i]);
+            for(int j=i+1; j<n; j++){
+                int x=-(nums[i]+nums[j]);
+                if(seen.find(x)!=seen.end() && seen[x]==i){
+                    vector<int> trip={nums[i], nums[j], x};
+                    sort(trip.begin(), trip.end());
+                    res.insert(trip);
+                }
+                seen[nums[j]]=i;
+            }
+        }
+        
+        return vector<vector<int>>(begin(res), end(res));
     }
 };
