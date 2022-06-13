@@ -1,28 +1,23 @@
+#define ll long long
+
 class Solution {
 public:
-    int evalRPN(vector<string>& tokens) {
-        stack<long long int> st;
-        for(auto c: tokens){
-            if(c!="+" && c!="-" && c!="*" && c!="/"){
-                st.push(stol(c));
+    int evalRPN(vector<string>& v) {
+        stack<ll> num; 
+        ll n=v.size();
+        for(ll i=0; i<n; i++){
+            if(v[i]!="+" && v[i]!="-" && v[i]!="*" && v[i]!="/"){
+                num.push(stol(v[i]));
             }
             else{
-                int a=st.top(); st.pop();
-                int b=st.top(); st.pop();
-                if(c=="+"){
-                    st.push(a+b);
-                }
-                else if(c=="-"){
-                    st.push(b-a);
-                }
-                else if(c=="*"){
-                    st.push(a*b);
-                }
-                else{
-                    st.push(b/a);
-                }
+                ll a=num.top(); num.pop();
+                ll b=num.top(); num.pop();
+                if(v[i]=="+") num.push(a+b);
+                else if(v[i]=="*") num.push(a*b);
+                else if(v[i]=="-") num.push(b-a);
+                else num.push(b/a);
             }
         }
-        return st.top();
+        return (int)num.top();
     }
 };
