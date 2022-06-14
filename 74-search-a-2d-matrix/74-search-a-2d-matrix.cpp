@@ -1,42 +1,32 @@
 class Solution {
 public:
-    bool searchMatrix(vector<vector<int>>& mat, int target) {
-        
+    bool searchMatrix(vector<vector<int>>& mat, int k) {
         int r=mat.size(), c=mat[0].size();
-        int rstart=0, rend=r-1;
-        int rmid, rind=-1;
-        
-        while(rstart<=rend){
-            rmid=rstart+(rend-rstart)/2;
-            
-            if(target<mat[rmid][0]){
-                rend=rmid-1;
-            }
-            else if(target>mat[rmid][c-1]){
-                rstart=rmid+1;
-            }
-            else if(target>=mat[rmid][0] && target<=mat[rmid][c-1]){
-                rind=rmid;
+        int lo=0, hi=r-1, curr;
+        while(lo<=hi){
+            int mid=lo+(hi-lo)/2;
+            if(k>=mat[mid][0] && k<=mat[mid][c-1]){
+                curr=mid;
                 break;
             }
-            else{
-                return false;
+            else if(k<mat[mid][0]){
+                hi=mid-1;
+            }
+            else if(k>mat[mid][c-1]){
+                lo=mid+1;
             }
         }
-        
-        if(rind!=-1){
-            int cstart=0, cend=c-1;
-            while(cstart<=cend){
-                int cmid=cstart+(cend-cstart)/2;
-                if(target==mat[rind][cmid]){
-                    return true;
-                }
-                else if(target>mat[rind][cmid]){
-                    cstart=cmid+1;
-                }
-                else{
-                    cend=cmid-1;
-                }
+        lo=0, hi=c-1;
+        while(lo<=hi){
+            int mid=lo+(hi-lo)/2;
+            if(mat[curr][mid]==k){
+                return true;
+            }
+            else if(mat[curr][mid]<k){
+                lo=mid+1;
+            }
+            else{
+                hi=mid-1;
             }
         }
         return false;
