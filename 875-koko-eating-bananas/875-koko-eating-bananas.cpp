@@ -1,32 +1,28 @@
 class Solution {
 public:
-    bool isPossible(vector<int> &piles, int k, int h){
-        int n=piles.size(), curr=0; 
-        if(k==0){
-            return 0;
-        }
+    bool isPossible(vector<int>& piles, int h, int k){
+        int n=piles.size(), curr=0;
         for(int i=0; i<n; i++){
-            curr+=piles[i]/k;
-            if(piles[i]%k) curr++; //curr=4
+            curr+=piles[i]/k; //hrs needed to eat piles[i] bananas, if she eats k in an hour; 
+            if(piles[i]%k) curr++;
             if(curr>h) return 0;
         }
-        if(curr>h) return 0;
         return 1;
     }
     
     int minEatingSpeed(vector<int>& piles, int h) {
-        long long int hi=0;
-        for(auto i:piles){
-            hi+=i;
+        int n=piles.size(), lo=1, hi=*max_element(piles.begin(), piles.end()); 
+        //max bananas coco can eat in an hour is the max number of bananas in a pile;
+        if(h==n){ //since koko has n hours, she'll eat one pile in one hour, so it will be hi;
+            return hi;
         }
-        //lo=0, hi=13
-        long long int lo=0;
+        //she has more than n hours, so she can do better;
         while(lo<hi){
-            long long int mid=lo+(hi-lo)/2; //13
-            if(isPossible(piles, mid, h)){
+            int mid=lo+(hi-lo)/2;
+            if(isPossible(piles, h, mid)){ //this is possible, so check for even better;
                 hi=mid;
             }
-            else{
+            else{ //she needs to up her eating game;
                 lo=mid+1;
             }
         }
