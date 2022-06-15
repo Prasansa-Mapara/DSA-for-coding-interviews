@@ -11,35 +11,33 @@
 class Solution {
 public:
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        int x=0, sum=(l1->val + l2->val + x)%10;
-        x=(l1->val + l2->val + x)/10;
-        ListNode *curr=new ListNode(sum), *head=curr;
-        l1=l1->next; l2=l2->next;
+        int cry=0;
+        ListNode *prev=new ListNode(), *sol=prev;
         while(l1 && l2){
-            sum=(l1->val + l2->val + x)%10;
-            x=(l1->val + l2->val + x)/10;
-            curr->next=new ListNode(sum);
-            curr=curr->next;
-            l1=l1->next; l2=l2->next;
+            int sum=l1->val + l2->val + cry;
+            cry=sum/10;
+            prev->next=new ListNode(sum%10);
+            prev=prev->next;
+            l1=l1->next;
+            l2=l2->next;
         }
         while(l1){
-            sum=(l1->val + x)%10;
-            x=(l1->val + x)/10;
-            curr->next=new ListNode(sum);
-            curr=curr->next;
+            int sum=l1->val + cry;
+            cry=sum/10;
+            prev->next=new ListNode(sum%10);
+            prev=prev->next;
             l1=l1->next;
         }
         while(l2){
-            sum=(l2->val + x)%10;
-            x=(l2->val + x)/10;
-            curr->next=new ListNode(sum);
-            curr=curr->next;
+            int sum=l2->val + cry;
+            cry=sum/10;
+            prev->next=new ListNode(sum%10);
+            prev=prev->next;
             l2=l2->next;
         }
-        if(x){
-            curr->next=new ListNode(x);
-            curr=curr->next;
+        if(cry){
+            prev->next=new ListNode(cry);
         }
-        return head;
+        return sol->next;
     }
 };
