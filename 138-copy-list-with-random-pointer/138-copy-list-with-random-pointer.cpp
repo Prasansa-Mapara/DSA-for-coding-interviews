@@ -17,41 +17,40 @@ public:
 class Solution {
 public:
     Node* copyRandomList(Node* head) {
+        //O(n) space will be maintaining a hash;
+        //O(1) space solution:
+        
+        if(!head) return head;
         Node *curr=head;
-        if(!curr) return NULL;
-        //for next ptrs;
+        
         while(curr){
-            Node *tmp=new Node(curr->val);
-            tmp->next=curr->next;
+            Node *tmp=new Node(curr->val); 
+            tmp->next=curr->next; //insert a new node(copied node) next to the current node;
             curr->next=tmp;
-            curr=curr->next->next;
+            curr=tmp->next;
         }
-        //for random ptrs;
+        
         curr=head;
         while(curr){
+            Node *tmp=curr->next; //pointing to the copied node;
             if(curr->random){
-                curr->next->random=curr->random->next;
+                tmp->random=curr->random->next; //random ptrs;
             }
-            else{
-                curr->next->random=NULL;
-            }
-            curr=curr->next->next;
+            curr=tmp->next;
         }
-        //getting final ans;
-        Node *sol=head, *ncurr=head->next;
-        sol=sol->next;
-        curr=head;
+        
+        //dismantling new and old nodes;
+        curr=head; 
+        Node *sol=curr->next;
         while(curr){
-            curr->next=ncurr->next;
-            if(curr->next){
-                ncurr->next=ncurr->next->next;
-            }
-            else{
-                ncurr->next=NULL;
-            }
+            Node *tmp=curr->next;
+            curr->next=tmp->next;
             curr=curr->next;
-            ncurr=ncurr->next;
+            if(curr)tmp->next=curr->next;
+            else tmp->next=NULL;
+            tmp=tmp->next;
         }
+        
         return sol;
     }
 };
