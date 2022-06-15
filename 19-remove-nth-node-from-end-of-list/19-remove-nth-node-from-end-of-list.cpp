@@ -19,7 +19,7 @@ public:
         while(i--){
             fast=fast->next;
         }
-        while(fast){
+        while(fast){ //when fast is pointing to null, slow will be pointing just before the node to be deleted;
             slow=slow->next;
             fast=fast->next;
         }
