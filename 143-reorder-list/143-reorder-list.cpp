@@ -12,6 +12,7 @@ class Solution {
 public:
     //instead of creating a copy of list, and then reversing and merging, which will take O(n) space
     //i can do it in O(1) space, by reversing second half of list n then merging;
+    
     void reorderList(ListNode* head) {
         //first find a mid;
         if(!head) return;
@@ -21,18 +22,20 @@ public:
             prev=slow;
             slow=slow->next;
         }
-        if(prev) prev->next=NULL;
+        if(prev) prev->next=NULL; //break both lls;
+        
         //mid is slow;
         ListNode *curr=slow, *nxt;
-        prev=NULL;
-        
-        while(curr){
+        prev=NULL;        
+        while(curr){ //reverse second part of list;
             nxt=curr->next;
             curr->next=prev;
             prev=curr;
             curr=nxt;
         }
-        ListNode *l1=head, *l2=prev;
+        
+        //merge two lists; 
+        ListNode *l1=head, *l2=prev; 
         if(l1==l2) return;
         curr=new ListNode();
         while(l1 && l2){
