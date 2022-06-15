@@ -15,14 +15,13 @@ public:
         if(!root){
             return 0;
         }
-        int l=solve(root->left), r=solve(root->right);
+        int l=solve(root->left);
+        if(l==-1) return -1;
+        int r=solve(root->right);
+        if(r==-1) return -1;
         int x=abs(l-r);
-        if(l!=-1 && r!=-1 && x<=1){
-            return 1+max(l, r);
-        }
-        else{
-            return -1;
-        }
+        if(x>1) return -1;
+        return 1+max(l, r);
     }
     
     bool isBalanced(TreeNode* root) {
