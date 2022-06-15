@@ -10,44 +10,41 @@
  */
 class Solution {
 public:
+    //instead of creating a copy of list, and then reversing and merging, which will take O(n) space
+    //i can do it in O(1) space, by reversing second half of list n then merging;
     void reorderList(ListNode* head) {
-        int n=0; 
-        ListNode *curr=new ListNode(), *tmp=head, *tmp2=curr;
-        while(tmp){
-            curr->next=new ListNode(tmp->val);
-            curr=curr->next;
-            tmp=tmp->next;
-            n++;
+        //first find a mid;
+        if(!head) return;
+        ListNode *slow=head, *fast=head, *prev=NULL;
+        while(fast && fast->next){
+            fast=fast->next->next;
+            prev=slow;
+            slow=slow->next;
         }
-        ListNode *head2=tmp2->next;
-        //now reverse this second list;
-        ListNode *prev=NULL, *nxt;
-        curr=head2;
+        if(prev) prev->next=NULL;
+        //mid is slow;
+        ListNode *curr=slow, *nxt;
+        prev=NULL;
+        
         while(curr){
             nxt=curr->next;
             curr->next=prev;
             prev=curr;
             curr=nxt;
         }
-        
-        head2=prev;
-        tmp=head; tmp2=head2;
+        ListNode *l1=head, *l2=prev;
+        if(l1==l2) return;
         curr=new ListNode();
-        ListNode *sol=curr;
-        
-        while(n){
-            curr->next=tmp;
-            tmp=tmp->next;
-            n--;
+        while(l1 && l2){
+            curr->next=l1;
+            l1=l1->next;
             curr=curr->next;
-            if(n){
-                curr->next=tmp2;
-                tmp2=tmp2->next;
-                n--;
-                curr=curr->next;
-            }
+            curr->next=l2;
+            l2=l2->next;
+            curr=curr->next;
         }
-        curr->next=NULL;
-        //head= sol->next;
+        if(l1) curr->next=l1;
+        if(l2) curr->next=l2;
+    
     }
 };
