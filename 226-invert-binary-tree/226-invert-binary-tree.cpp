@@ -13,10 +13,15 @@ class Solution {
 public:
     TreeNode* invertTree(TreeNode* root) {
         if(!root) return NULL;
-        TreeNode *left=invertTree(root->left);
-        TreeNode *right=invertTree(root->right);
-        root->left=right;
-        root->right=left;
+        queue<TreeNode*> q;
+        q.push(root);
+        while(q.size()){
+            TreeNode *curr=q.front();
+            q.pop();
+            swap(curr->left, curr->right);
+            if(curr->left) q.push(curr->left);
+            if(curr->right) q.push(curr->right);
+        }
         return root;
     }
 };
