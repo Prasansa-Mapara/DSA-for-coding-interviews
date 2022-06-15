@@ -11,31 +11,27 @@
  */
 class Solution {
 public:
-    map<int, vector<int>> hash; 
-    
     vector<vector<int>> levelOrder(TreeNode* root) {
+        //I can avoid using extra storage in hash;
+        
+        queue<TreeNode*> q;
         vector<vector<int>> sol;
         if(!root) return sol;
-        queue<pair<TreeNode*, int>> q;
-        q.push({root, 0});
+        q.push(root);
         
         while(q.size()){
-            int curr=q.front().second;
-            TreeNode *tmp=q.front().first;
-            q.pop();
-            hash[curr].push_back(tmp->val);
-            
-            if(tmp->left){
-                q.push({tmp->left, curr+1});
+            int n=q.size();
+            vector<int> tmp;
+            while(n--){ //this is one level;
+                TreeNode *curr=q.front();
+                q.pop();
+                if(curr->left) q.push(curr->left);
+                if(curr->right) q.push(curr->right);
+                tmp.push_back(curr->val);
             }
-            if(tmp->right){
-                q.push({tmp->right, curr+1});
-            }
+            sol.push_back(tmp);
         }
         
-        for(auto i=hash.begin(); i!=hash.end(); i++){
-            sol.push_back(i->second);
-        }
         return sol;
     }
 };
