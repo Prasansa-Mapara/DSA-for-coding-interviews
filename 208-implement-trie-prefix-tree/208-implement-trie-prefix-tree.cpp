@@ -1,66 +1,59 @@
 class TrieNode{
-    public:
+    public: 
+    bool isEnd; 
+    TrieNode* children[26];
     
-    bool isEnd; //marking the end of a word;
-    TrieNode* children[26]; //26 children nodes;
-    
-    TrieNode(){
+    TrieNode(){ //default constructor;
         isEnd=false;
         for(int i=0; i<26; i++){
-            children[i]=NULL; //initially all nodes are null;
+            children[i]=NULL;
         }
     }
 };
 
 class Trie {
-    TrieNode *root; //when we declare a root node, it will automatically have 26 null children, and it wont be the end of a sentence;
 public:
+    TrieNode *root; //this will pt to the root node;
+    
     Trie() {
-        root=new TrieNode;
+        root=new TrieNode(); //initialize the root node;
     }
     
     void insert(string word) {
-        int n=word.size();
         TrieNode *curr=root;
+        int n=word.size();
         for(int i=0; i<n; i++){
-            int idx=word[i]-'a'; //lowercase chars;
-            if(!curr->children[idx]){ //if its a null node then we need to insert; 
+            int idx=word[i]-'a';
+            if(!curr->children[idx]){
                 curr->children[idx]=new TrieNode();
             }
             curr=curr->children[idx];
         }
-        curr->isEnd=true; //marks the end of the word;
+        curr->isEnd=true;
     }
     
     bool search(string word) {
-        int n=word.size();
         TrieNode *curr=root;
+        int n=word.size();
         for(int i=0; i<n; i++){
             int idx=word[i]-'a';
-            if(curr->children[idx]){
-                curr=curr->children[idx];
-            }
-            else{
+            if(!curr->children[idx]){
                 return false;
             }
+            curr=curr->children[idx];
         }
-        if(curr->isEnd){
-            return true;
-        }
-        return false;
+        return curr->isEnd;
     }
     
     bool startsWith(string prefix) {
-        int n=prefix.size();
         TrieNode *curr=root;
+        int n=prefix.size();
         for(int i=0; i<n; i++){
             int idx=prefix[i]-'a';
-            if(curr->children[idx]){
-                curr=curr->children[idx];
-            }
-            else{
+            if(!curr->children[idx]){
                 return false;
             }
+            curr=curr->children[idx];
         }
         return true;
     }
