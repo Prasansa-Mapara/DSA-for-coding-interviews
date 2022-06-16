@@ -34,17 +34,18 @@ public:
     
     bool searchWrd(string &word, TrieNode *curr, int i){
         int n=word.size();
-        if(i==n){
-            return curr->isEnd;
+        if(i==n){ //if we have reached the end, then check if its a word;
+            return curr->isEnd; //if yes, then that word exists;
+            //if no, then it doesnt;
         }
         if(word[i]!='.'){
             int idx=word[i]-'a';
-            if(curr->children[idx]){
+            if(curr->children[idx]){ //so this letter's there, now check ofr the rest of the string;
                 return searchWrd(word, curr->children[idx], i+1);
             }
         }
         else{
-           for(int j=0; j<26; j++){
+           for(int j=0; j<26; j++){ //recursively check for all options; 
                 if(curr->children[j] && searchWrd(word, curr->children[j], i+1)){
                     return true;
                 }
