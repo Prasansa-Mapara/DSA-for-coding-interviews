@@ -8,6 +8,7 @@ public:
             sol.push_back(tmp);
             return;
         }
+        else if(k<0) return;
         for(int i=curr; i<n; i++){
             if((k-v[i])>=0){
                 tmp.push_back(v[i]);
