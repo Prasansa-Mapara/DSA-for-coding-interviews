@@ -2,30 +2,28 @@ class Solution {
 public:
     vector<vector<int>> sol;
     
-    void solve(vector<int> &v, int k, vector<int> tmp, int ind){
+    void solve(vector<int> &v, vector<int> tmp, int k, int curr){
         int n=v.size();
-        if(k==0){ //when we've got the target;
-            sol.push_back(tmp);           
+        if(k==0){
+            sol.push_back(tmp);
             return;
         }
-        for(int i=ind; i<n; i++){
-            if(v[i]<=k){
+        for(int i=curr; i<n; i++){
+            if((k-v[i])>=0){
                 tmp.push_back(v[i]);
-                solve(v, k-v[i], tmp, i);
+                solve(v, tmp, k-v[i], i);
                 tmp.pop_back();
             }
             else{
                 return;
             }
         }
-        return;
     }
     
-    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+    vector<vector<int>> combinationSum(vector<int>& v, int k) {
         vector<int> tmp;
-        sort(candidates.begin(), candidates.end()); //so whe any value is greater than target, it will break out from loop;
-        solve(candidates, target, tmp, 0); //keeping index as combinations must be unique;
-        //so same index won't repeat;
+        sort(v.begin(), v.end());
+        solve(v, tmp, k, 0);
         return sol;
     }
 };
