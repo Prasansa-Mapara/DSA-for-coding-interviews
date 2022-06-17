@@ -6,16 +6,15 @@ public:
             return 0;
         }
         mat[i][j]=0;
-        int x=dfs(mat, i+1, j), y=dfs(mat, i, j+1);
-        int z=dfs(mat, i-1, j), w=dfs(mat, i, j-1);
-        return 1+x+y+z+w;
+        return 1+dfs(mat, i+1, j)+dfs(mat, i-1, j)+dfs(mat, i, j+1)+dfs(mat, i, j-1);
     }
     
     int maxAreaOfIsland(vector<vector<int>>& mat) {
-        int r=mat.size(), c=mat[0].size(), area=0;
+        //here we want addition of all 1s;
+        int area=0, r=mat.size(), c=mat[0].size();
         for(int i=0; i<r; i++){
             for(int j=0; j<c; j++){
-                if(mat[i][j]){ //if its a land then do dfs; 
+                if(mat[i][j]){
                     area=max(area, dfs(mat, i, j));
                 }
             }
