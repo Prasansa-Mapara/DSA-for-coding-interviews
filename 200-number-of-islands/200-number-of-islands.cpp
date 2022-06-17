@@ -1,30 +1,27 @@
 class Solution {
 public:
-    void dfs(vector<vector<char>>& mat, int i, int j){
-        int m=mat.size(), n=mat[0].size();
-        if(i<0 || i>=m || j<0 || j>=n){
+    void dfs(vector<vector<char>> &mat, int i, int j){
+        int r=mat.size(), c=mat[0].size();
+        if(i<0 || j<0 || i>=r || j>=c || mat[i][j]=='0'){
             return;
         }
-        else if(mat[i][j]=='0') return;
-        mat[i][j]='0';
-        dfs(mat, i+1, j);
+        mat[i][j]='0'; //marking it visited;
+        dfs(mat, i+1, j); 
         dfs(mat, i-1, j);
         dfs(mat, i, j+1);
         dfs(mat, i, j-1);
-        return;        
     }
     
     int numIslands(vector<vector<char>>& mat) {
-        int m=mat.size(), n=mat[0].size(), island=0;
-        //dfs, 4 directions;
-        for(int i=0; i<m; i++){
-            for(int j=0; j<n; j++){
-                if(mat[i][j]=='1'){
+        int islands=0, r=mat.size(), c=mat[0].size();
+        for(int i=0; i<r; i++){
+            for(int j=0; j<c; j++){
+                if(mat[i][j]=='1'){ //if its a land then run dfs;
                     dfs(mat, i, j);
-                    island++;
-                }
+                    islands++;
+                }                
             }
         }
-        return island;
+        return islands;
     }
 };
