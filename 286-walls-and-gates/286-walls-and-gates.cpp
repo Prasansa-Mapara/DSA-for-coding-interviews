@@ -12,27 +12,19 @@ public:
                 }
             }
         }
+        vector<pair<int, int>> dir={{1,0}, {-1,0}, {0,1}, {0,-1}};
         while(q.size()){
             int n=q.size(); //all neighboring will be filled wid 1+curr;
             curr++;
             while(n--){
                 int i=q.front().first, j=q.front().second;
                 q.pop();
-                if(i+1<r && mat[i+1][j]==inf){
-                    mat[i+1][j]=curr;
-                    q.push({i+1, j}); //now we can go from here;
-                }
-                if(j+1<c && mat[i][j+1]==inf){
-                    mat[i][j+1]=curr;
-                    q.push({i, j+1});
-                }
-                if(i-1>=0 && mat[i-1][j]==inf){
-                    mat[i-1][j]=curr;
-                    q.push({i-1, j});
-                }
-                if(j-1>=0 && mat[i][j-1]==inf){
-                    mat[i][j-1]=curr;
-                    q.push({i, j-1});
+                for(int it=0; it<4; it++){
+                    int ii=i+dir[it].first, jj=j+dir[it].second;
+                    if(ii>=0 && ii<r && jj>=0 && jj<c && mat[ii][jj]==inf){
+                        mat[ii][jj]=curr;
+                        q.push({ii, jj}); //now we can go from here;
+                    }
                 }
             }
         }
