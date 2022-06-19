@@ -1,26 +1,29 @@
-#define pii pair<int, int>
-
 class Solution {
 public:
     int minCostConnectPoints(vector<vector<int>>& pts) {
-        int n=pts.size();
-        //this ques is basically finding a mst; 
-        //the only diff btwn std algo and this is tht edges are not given;
-        priority_queue<pii, vector<pii>, greater<pii>> pq; //min heap;
+        //since the points are fixed, we dont have to keep storing them again and again;
+        int n=pts.size(), sol=0;
+        vector<int> dist(n, INT_MAX);
+        dist[0]=0;
+        int ind=0; //curr minimum dist, and its corresponding index;
         unordered_set<int> hash;
-        pq.push({0, 0}); //dist for first node is 0;
-        int sol=0;
-        while(pq.size()){
-            int dist=pq.top().first, i=pq.top().second;
-            pq.pop();
-            if(hash.find(i)!=hash.end()) continue;
-            hash.insert(i); //so tht we wont form a loop;
-            sol+=dist;
-            for(int j=0; j<n; j++){
-                if(hash.find(j)!=hash.end()) continue;
-                int curr=abs(pts[j][0]-pts[i][0])+abs(pts[j][1]-pts[i][1]); //dist of the node in consideration with the current node;
-                pq.push({curr, j});
+        while(hash.size()<n){
+            int mn=INT_MAX, j;
+            hash.insert(ind);
+            for(int i=0; i<n; i++){
+                if(hash.find(i)!=hash.end()) continue;
+                int curr=abs(pts[i][0]-pts[ind][0])+abs(pts[i][1]-pts[ind][1]);
+                if(curr<dist[i]){
+                    dist[i]=curr;
+                }
+                if(dist[i]<mn){
+                    mn=dist[i];
+                    j=i;
+                }
             }
+            if(mn==INT_MAX) break;
+            sol+=mn;
+            ind=j;
         }
         return sol;
     }
