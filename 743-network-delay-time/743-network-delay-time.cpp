@@ -1,12 +1,11 @@
 #define pii pair<int, int>
-#define pb push_back
 
 class Solution {
 public:
     int networkDelayTime(vector<vector<int>>& times, int n, int k) {
         vector<vector<pii>> adj(n+1);
         for(auto x: times){
-            adj[x[0]].pb({x[2], x[1]});
+            adj[x[0]].push_back({x[2], x[1]});
         }
         priority_queue<pii, vector<pii>, greater<pii>> pq; //min time will be first;
         for(auto x: adj[k]){
