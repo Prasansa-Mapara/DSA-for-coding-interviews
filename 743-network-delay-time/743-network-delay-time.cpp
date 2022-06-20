@@ -22,6 +22,7 @@ public:
             }
             hash.insert(node);
             for(auto x: adj[node]){
+                if(hash.find(x.second)!=hash.end()) continue;
                 pq.push({x.first+time, x.second});
             }
             sol=max(sol, time);
