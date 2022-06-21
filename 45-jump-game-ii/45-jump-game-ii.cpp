@@ -1,13 +1,12 @@
 class Solution {
 public:
     int jump(vector<int>& nums) {
-        int n=nums.size(), jumps=0;
-        int last=0, farthest=0;
+        int n=nums.size(), curEnd=0, curFar=0, jumps=0;
         for(int i=0; i<n-1; i++){
-            farthest=max(farthest, i+nums[i]);
-            if(last==i){
+            curFar=max(curFar, nums[i]+i);
+            if(i==curEnd){
                 jumps++;
-                last=farthest;
+                curEnd=curFar;
             }
         }
         return jumps;
