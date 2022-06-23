@@ -1,22 +1,19 @@
 class Solution {
 public:
     vector<vector<int>> merge(vector<vector<int>>& v) {
-        int n=v.size();
+        int i=0, j=1, n=v.size();
         sort(v.begin(), v.end());
-        int curr=0, i=1;
-        while(i<n){
-            if(v[i][0]<=v[curr][1]){
-                v[curr][0]=min(v[i][0], v[curr][0]);
-                v[curr][1]=max(v[i][1], v[curr][1]);
-                i++;
+        while(j<n){
+            if(v[i][1]>=v[j][0]){
+                v[i][0]=min(v[i][0], v[j][0]);
+                v[i][1]=max(v[i][1], v[j][1]);
             }
             else{
-                curr++;
-                v[curr][0]=v[i][0];
-                v[curr][1]=v[i][1];
                 i++;
+                v[i]=v[j];
             }
+            j++;
         }
-        return {v.begin(), v.begin()+curr+1};
+        return vector<vector<int>>(v.begin(), v.begin()+i+1);
     }
 };
