@@ -1,19 +1,19 @@
 class Solution {
 public:
     int eraseOverlapIntervals(vector<vector<int>>& v) {
+        int n=v.size(), prev=0, curr=1, cnt=0;
         sort(v.begin(), v.end());
-        int i=0, j=1, n=v.size(), cnt=0;
-        while(j<n){
-            if(v[j][0]<v[i][1]){ //remove an element;
-                cnt++; 
-                if(v[j][1]<v[i][1]){ //we want i to have the least end value;
-                    i=j;
-                }
+        while(curr<n){
+            if(v[curr][0]>=v[prev][1]){ //it's at a perfect pos;
+                prev=curr;
             }
             else{
-                i=j;
+                cnt++; //gotta remove this element;
+                if(v[curr][1]<v[prev][1]){ //prev will have least ending value;
+                    prev=curr;
+                }
             }
-            j++;
+            curr++;
         }
         return cnt;
     }
