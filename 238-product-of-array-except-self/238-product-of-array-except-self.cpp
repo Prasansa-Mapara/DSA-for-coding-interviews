@@ -2,27 +2,30 @@ class Solution {
 public:
     vector<int> productExceptSelf(vector<int>& nums) {
         long long int prod=1;
-        int z=0; //keep a track of number of 0s;
-        vector<int> sol;
+        bool z=0; //if there's a zero present;
+        int n=nums.size();
+        vector<int> sol(n, 0);
         for(auto i:nums){
-            if(i) prod*=i;
-            else z++;
+            if(i) prod*=i; //keep a track of product of all non-zero numbers;
+            else{
+                if(!z) z=1;
+                else{ //there's more than 1 zero, so sol will have all zeroes;
+                    return sol;
+                }
+            }
         }
+        int j=0;
         for(auto i:nums){
-            if(i){
-                if(z) sol.push_back(0);
+            if(i){ //curr num's non-zero;
+                if(z) sol[j]=0; //but there's a 0;
                 else{
-                    sol.push_back(prod/i);
+                    sol[j]=prod/i; //no 0 present;
                 }
             }
             else{
-                if(z-1){
-                    sol.push_back(0);
-                }
-                else{
-                    sol.push_back(prod);
-                }
+                sol[j]=prod;
             }
+            j++;
         }
         return sol;
     }
