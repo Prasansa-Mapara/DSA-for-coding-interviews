@@ -21,14 +21,12 @@ public:
                 else{
                     col[j].insert(c);
                 }
-                int x=i/3, y=j/3, t=0;
-                if(x==1) t+=2;
-                else if(x==2) t+=4;
-                if(box[x+y+t].find(c)!=box[x+y+t].end()){
+                int x=(i/3)*3, y=j/3;
+                if(box[x+y].find(c)!=box[x+y].end()){
                     return 0;
                 }
                 else{
-                    box[x+y+t].insert(c);
+                    box[x+y].insert(c);
                 }
             }
         }
