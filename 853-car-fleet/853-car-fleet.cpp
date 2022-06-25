@@ -3,6 +3,8 @@ public:
      int carFleet(int k, vector<int>& pos, vector<int>& speed) {
          //cars that reach the destination at the same time is a fleet;
         //faster car will always catch up to the slower car;
+         //so prev car will catch up curr car, if time taken by prev car to reach the desti is less than
+         //time taken by curr car to reach the desti;
          vector<pair<int, int>> v;
          int n=pos.size();
          for(int i=0; i<n; i++){
