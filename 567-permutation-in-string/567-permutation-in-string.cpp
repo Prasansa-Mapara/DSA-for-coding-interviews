@@ -4,10 +4,8 @@ public:
         int n=s1.size();
         if(s2.size()<n) return 0;
         vector<int> hash(26, 0), tmp(26, 0);
-        for(auto c: s1){
-            hash[c-'a']++;
-        }
         for(int i=0; i<n; i++){
+            hash[s1[i]-'a']++;
             tmp[s2[i]-'a']++;
         }
         if(hash==tmp) return 1;
