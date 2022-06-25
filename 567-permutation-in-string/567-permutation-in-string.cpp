@@ -1,12 +1,12 @@
 class Solution {
 public:
     bool checkInclusion(string s1, string s2) {
-        vector<int> hash(26, 0), tmp(26, 0);
         int n=s1.size();
+        if(s2.size()<n) return 0;
+        vector<int> hash(26, 0), tmp(26, 0);
         for(auto c: s1){
             hash[c-'a']++;
         }
-        if(s2.size()<n) return 0;
         for(int i=0; i<n; i++){
             tmp[s2[i]-'a']++;
         }
