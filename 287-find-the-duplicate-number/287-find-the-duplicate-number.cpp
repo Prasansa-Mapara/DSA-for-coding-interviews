@@ -1,21 +1,16 @@
 class Solution {
 public:
     int findDuplicate(vector<int>& nums) {
-        int n=nums.size();
-        int slow=nums[0], fast=nums[nums[0]];
-        while(slow!=fast){ //detecting a cycle
-            //cycle for sure exists because of the pigeonhole principle
-            //(n+1 pigeons, n values;)
-            slow=nums[slow];
-            fast=nums[nums[fast]];
+        //[-3, 1, -3, 4, 2]
+        int n=nums.size(), i=0;
+        while(i<n){
+            int ind=abs(nums[i])-1;
+            if(nums[ind]<0){
+                return abs(nums[i]);
+            }
+            nums[ind]*=-1;
+            i++;
         }
-        //now that we have a cycle, we want the starting pt of the cycle, because more than 
-        //one element pts there;
-        slow=0; 
-        while(slow!=fast){ //algo to fidn starting pt of cycle;
-            slow=nums[slow];
-            fast=nums[fast];
-        }
-        return slow;
+        return 0;
     }
 };
