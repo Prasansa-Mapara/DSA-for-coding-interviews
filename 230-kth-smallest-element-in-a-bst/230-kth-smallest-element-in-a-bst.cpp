@@ -11,18 +11,18 @@
  */
 class Solution {
 public:
-    vector<int> v;
-    
-    void dfs(TreeNode *curr){
-        if(!curr) return;
-        dfs(curr->left);
-        v.push_back(curr->val);
-        dfs(curr->right);
-    }
-    
     int kthSmallest(TreeNode* root, int k) {
-        //if extra space is allowed then i'll store elements in an array;
-        dfs(root);
-        return v[k-1];
+        //iterative inorder;
+        stack<TreeNode *> st;
+        while(true){
+            while(root){
+                st.push(root);
+                root=root->left;
+            }
+            root=st.top(); st.pop();
+            if(k==1) return root->val;
+            k--;
+            root=root->right;
+        }
     }
 };
