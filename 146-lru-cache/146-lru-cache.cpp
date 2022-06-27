@@ -1,37 +1,36 @@
 class LRUCache {
 public:
-    int cap;
-    list<pair<int, int>> cache; //key-value;
+    list<pair<int, int>> li;
     unordered_map<int, list<pair<int, int>>::iterator> hash;
+    int cap;
     
     LRUCache(int capacity) {
         cap=capacity;
     }
     
     int get(int key) {
-        if(hash.find(key)==hash.end()){ //key not present;
+        if(hash.find(key)==hash.end()){
             return -1;
         }
-        else{ //since key is present, it will be moved to the front;
-            cache.splice(cache.begin(), cache, hash[key]);
-            hash[key]=cache.begin();
-            return hash[key]->second;
-        }
+        li.splice(li.begin(), li, hash[key]);
+        hash[key]=li.begin();
+        return hash[key]->second;
     }
     
-    void put(int key, int value) {
-        if(hash.find(key)==hash.end()){ //key not present;
+    void put(int key, int val) {
+        if(hash.find(key)==hash.end()){
             if(hash.size()>=cap){
-                hash.erase(hash.find(cache.back().first));
-                cache.pop_back(); //remove the least freuently used item;
-            } 
-            cache.push_front({key, value});
+                hash.erase(hash.find(li.back().first));
+                li.pop_back();
+            }
+            li.push_front({key, val});
+            hash[key]=li.begin();
         }
         else{
-            cache.splice(cache.begin(), cache, hash[key]);
-            cache.front().second=value;
+            li.splice(li.begin(), li, hash[key]);
+            li.front().second=val;
+            hash[key]=li.begin();
         }
-        hash[key]=cache.begin();
     }
 };
 
