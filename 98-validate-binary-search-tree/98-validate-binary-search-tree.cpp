@@ -13,26 +13,18 @@
 
 class Solution {
 public:
-    bool sol=1;
-    
-    void dfs(TreeNode *curr, ll mn, ll mx){
+    bool dfs(TreeNode *curr, ll mn, ll mx){
         if(!curr){
-            return;
+            return 1;
         }
-        if(curr->val>mn && curr->val<mx){
-            dfs(curr->right, curr->val, mx);
-            dfs(curr->left, mn, curr->val);
+        if(curr->val<=mn || curr->val>=mx){
+            return 0;
         }
-        else{
-            sol=0;
-        }
+        return dfs(curr->right, curr->val, mx) && dfs(curr->left, mn, curr->val);
     }
     
     bool isValidBST(TreeNode* root) {
         //also dfs, just keep a range check;
-        ll mn=INT_MIN, mx=INT_MAX;
-        mn--; mx++;
-        dfs(root, mn, mx);
-        return sol;
+        return dfs(root, LONG_MIN, LONG_MAX);
     }
 };
