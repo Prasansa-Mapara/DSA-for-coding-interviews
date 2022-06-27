@@ -1,7 +1,6 @@
 class Solution {
 public:
     int findDuplicate(vector<int>& nums) {
-        //[-3, 1, -3, 4, 2]
         int n=nums.size(), i=0;
         while(i<n){
             int ind=abs(nums[i])-1;
