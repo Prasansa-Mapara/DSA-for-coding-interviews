@@ -1,5 +1,9 @@
 class MedianFinder {
 public:
+    //since it's a median, it'll be (max(min elements)+min(max elements))/2;
+    //so max heap will have smaller elements
+    //and min heap will have greater elements;
+    
     priority_queue<int> mxHp;
     priority_queue<int, vector<int>, greater<int>> mnHp;
     
@@ -14,12 +18,11 @@ public:
         else{
             mnHp.push(num);
         }
-        int x=mxHp.size(), y=mnHp.size();
-        if(x>(y+1)){
+        if(mxHp.size()>1+mnHp.size()){
             mnHp.push(mxHp.top());
             mxHp.pop();
         }
-        if(y>(x+1)){
+        else if(mnHp.size()>1+mxHp.size()){
             mxHp.push(mnHp.top());
             mnHp.pop();
         }
@@ -28,14 +31,12 @@ public:
     
     double findMedian() {
         if(mxHp.size()==mnHp.size()){
-            return (double)(mnHp.top()+mxHp.top())/2.0;
+            return (double)(mxHp.top()+mnHp.top())/2.0;
         }
-        else if(mxHp.size()>mnHp.size()){
+        if(mxHp.size()>mnHp.size()){
             return (double)mxHp.top();
         }
-        else{
-            return (double)mnHp.top();
-        }
+        return (double)mnHp.top();
     }
 };
 
