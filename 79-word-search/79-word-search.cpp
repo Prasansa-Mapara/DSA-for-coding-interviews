@@ -2,20 +2,28 @@ class Solution {
 public:
     vector<vector<char>> mat;
     string s;
+    bool sol=0;
     
-    bool dfs(int x, int y, int ind){
+    void dfs(int x, int y, int ind){
         int n=s.size(), r=mat.size(), c=mat[0].size();
-        if(ind>=n) return 1;
+        if(ind>=n){
+            sol=1;
+            return;
+        }
         if(x<0 || y<0 || x>=r || y>=c || mat[x][y]=='#' || mat[x][y]!=s[ind]){
-            return 0;
+            return;
         }
         char ch=mat[x][y];
-        //now we know it matches current character, so do dfs;
         mat[x][y]='#';
-        bool ret= dfs(x+1, y, ind+1) || dfs(x-1, y, ind+1) || dfs(x, y+1, ind+1) || dfs(x, y-1, ind+1);
+        dfs(x+1, y, ind+1);
+        dfs(x-1, y, ind+1);
+        dfs(x, y+1, ind+1);
+        dfs(x, y-1, ind+1);
         mat[x][y]=ch;
-        return ret;
     }
+    
+    //TC: O(r*c*3^l);
+    //3^l cuz for each index, we'll be visiting in three other directions;
     
     bool exist(vector<vector<char>>& board, string word) {
         mat=board; 
@@ -23,11 +31,12 @@ public:
         int r=mat.size(), c=mat[0].size();
         for(int i=0; i<r; i++){
             for(int j=0; j<c; j++){
-                if(dfs(i, j, 0)){
+                dfs(i, j, 0);
+                if(sol){
                     return 1;
                 }
             }
         }
-        return 0;
+        return sol;
     }
 };
