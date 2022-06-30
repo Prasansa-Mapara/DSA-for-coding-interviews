@@ -1,27 +1,33 @@
 class Solution {
 public:
-    bool dfs(vector<vector<char>> &mat, int i, int j, int &curr, string &s){
-        if(curr>=s.size()) return true;
-        int r=mat.size(), c=mat[0].size();
-        if(i<0 || i>=r || j<0 || j>=c) return false;
-        else if(mat[i][j]!=s[curr]) return false;
-        char x=mat[i][j];
-        mat[i][j]='0';
-        int k=curr+1;
-        bool sol=dfs(mat, i, j+1, k, s) || dfs(mat, i+1, j, k, s) || dfs(mat, i, j-1, k, s) || dfs(mat, i-1, j, k, s);
-        mat[i][j]=x;
-        return sol;
+    vector<vector<char>> mat;
+    string s;
+    
+    bool dfs(int x, int y, int ind){
+        int n=s.size(), r=mat.size(), c=mat[0].size();
+        if(ind>=n) return 1;
+        if(x<0 || y<0 || x>=r || y>=c || mat[x][y]=='#' || mat[x][y]!=s[ind]){
+            return 0;
+        }
+        char ch=mat[x][y];
+        //now we know it matches current character, so do dfs;
+        mat[x][y]='#';
+        bool ret= dfs(x+1, y, ind+1) || dfs(x-1, y, ind+1) || dfs(x, y+1, ind+1) || dfs(x, y-1, ind+1);
+        mat[x][y]=ch;
+        return ret;
     }
     
-    bool exist(vector<vector<char>>& mat, string s) {
-        int r=mat.size(), c=mat[0].size(), curr=0;
+    bool exist(vector<vector<char>>& board, string word) {
+        mat=board; 
+        s=word;
+        int r=mat.size(), c=mat[0].size();
         for(int i=0; i<r; i++){
             for(int j=0; j<c; j++){
-                if(mat[i][j]==s[curr]){
-                    if(dfs(mat, i, j, curr, s)) return true;
+                if(dfs(i, j, 0)){
+                    return 1;
                 }
             }
         }
-        return false;
+        return 0;
     }
 };
