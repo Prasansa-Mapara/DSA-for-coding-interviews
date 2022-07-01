@@ -16,7 +16,8 @@ public:
             curr.pop_back();
         }
     }
-    
+    //time complexity for backtrack will be (c in main) multiplied by (for in solve)^(#constraint in the solve function);
+    //1*4^n (*n this idk how or why)
     vector<string> letterCombinations(string digits) {
         if(digits=="") return sol;
         solve(digits, 0, "");
