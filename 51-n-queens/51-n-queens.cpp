@@ -1,45 +1,57 @@
 class Solution {
 public:
     vector<vector<string>> sol;
+    vector<string> mat;
+    int n;
     
-    bool isPossible(int c, int n, vector<string> &tmp, int r){
+    bool isPossible(vector<string> &mat, int r, int c){
+        for(int j=0; j<c; j++){
+            if(mat[r][j]=='Q'){ //there's a queen in the same row;
+                return 0;
+            }
+        }
         for(int i=0; i<r; i++){
-            if(tmp[i][c]=='Q') return false;
+            if(mat[i][c]=='Q'){
+                return 0;
+            }
         }
         for(int i=r-1, j=c-1; i>=0 && j>=0; i--, j--){
-            if(tmp[i][j]=='Q'){
-                return false;
+            if(mat[i][j]=='Q'){
+                return 0;
             }
         }
         for(int i=r-1, j=c+1; i>=0 && j<n; i--, j++){
-            if(tmp[i][j]=='Q'){
-                return false;
+            if(mat[i][j]=='Q'){
+                return 0;
             }
         }
-        return true;
+        return 1;
     }
     
-    void solve(vector<string> tmp, int n, int ind){
-        if(ind==n){
-            sol.push_back(tmp);
+    void solve(int r){
+        if(r==n){
+            sol.push_back(mat);
             return;
         }
-        for(int i=0; i<n; i++){
-            if(isPossible(i, n, tmp, ind)){
-                tmp[ind][i]='Q';
-                solve(tmp, n, ind+1);
-                tmp[ind][i]='.';
-            } 
+        for(int c=0; c<n; c++){
+            if(isPossible(mat, r, c)){
+                mat[r][c]='Q';
+                solve(r+1);
+                mat[r][c]='.';
+            }
         }
-        
     }
     
-    vector<vector<string>> solveNQueens(int n) {
-        string s;
-        vector<string> tmp;
-        for(int i=0; i<n; i++) s+=".";
-        for(int i=0; i<n; i++) tmp.push_back(s);
-        solve(tmp, n, 0);
+    vector<vector<string>> solveNQueens(int nn) {
+        n=nn;
+        for(int i=0; i<n; i++){
+            string tmp="";
+            for(int j=0; j<n; j++){
+                tmp.push_back('.');
+            }
+            mat.push_back(tmp);
+        }
+        solve(0);
         return sol;
     }
 };
