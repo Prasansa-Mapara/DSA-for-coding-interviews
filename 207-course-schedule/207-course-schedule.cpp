@@ -12,7 +12,7 @@ public:
                 return 1;
             }
         }
-        chk[curr]=1;
+        chk[curr]=1; //cuz now we done checking all neighbors of this node;
         return 0;
     }
 
@@ -28,7 +28,7 @@ public:
         
         for(int i=0; i<n; i++){
             if(!chk[i] && isCyclic(i, adj, vis, chk)){
-                return 0;
+                return 0; //if cyclic then not possible;
             }
         }
         
