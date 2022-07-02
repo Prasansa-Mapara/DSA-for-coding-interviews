@@ -2,7 +2,7 @@ class Solution {
 public:
     string sol;
     
-    bool isCyc(char curr, unordered_map<char, unordered_set<char>> &adj, vector<int> vis, vector<int> &chk){
+    bool isCyclic(char curr, unordered_map<char, unordered_set<char>> &adj, vector<int> vis, vector<int> &chk){
         if(vis[curr-'a']){
             return 1;
         }
@@ -11,7 +11,7 @@ public:
         }
         vis[curr-'a']=1;
         for(auto c: adj[curr]){
-            if(!chk[c-'a'] && isCyc(c, adj, vis, chk)){
+            if(!chk[c-'a'] && isCyclic(c, adj, vis, chk)){
                 return 1;
             }
         }
@@ -21,39 +21,45 @@ public:
     }
     
     string alienOrder(vector<string>& words) {
-        vector<int> chk(26, 0), vis(26, 0);
-        //nodes will be letters of english alphabet;
-        unordered_map<char, unordered_set<char>> adj;
+        //if you observe it, its a graph problem, tht too scheduling;
+        //so post-order dfs will do :)
+        //nodes are the letters;
+        
+        int n=words.size();
+        unordered_map<char, unordered_set<char>> adj; //graph;
+        //since mapping's repeated we using a set, so for that, we using a map;
+        
         for(auto s: words){
             for(auto c: s){
-                adj[c]={}; //initially insert all the characters to form a correct graph;
+                adj[c]={}; //some nodes might not be mapped to any, so we need to store all the chars;
             }
         }
-        int n=words.size();
         
+        //now make the graph;
         for(int i=1; i<n; i++){
-            string s1=words[i-1], s2=words[i];
-            int sz=min(s1.size(), s2.size());
-            bool flag=0;
+            string s=words[i-1], t=words[i];
+            int sz=min(s.size(), t.size());
+            bool fl=0;
             for(int j=0; j<sz; j++){
-                if(s1[j]!=s2[j]){
-                    flag=1;
-                    adj[s1[j]].insert(s2[j]); //only first letter should differ;
+                if(s[j]!=t[j]){
+                    adj[s[j]].insert(t[j]);
+                    fl=1;
                     break;
                 }
             }
-            if(!flag){ //initial letters are the same
-                if(s1.size()>s2.size()){
-                    return {};
+            if(!fl){
+                if(s.size()>t.size()){
+                    return "";
                 }
             }
         }
-        //now my graph's ready;
         
+        //graph's ready;
+        vector<int> vis(26, 0), chk(26, 0);
         for(auto i: adj){
             char c=i.first;
-            if(!chk[c-'a'] && isCyc(c, adj, vis, chk)){
-                return {};
+            if(!chk[c-'a'] && isCyclic(c, adj, vis, chk)){
+                return "";
             }
         }
         
