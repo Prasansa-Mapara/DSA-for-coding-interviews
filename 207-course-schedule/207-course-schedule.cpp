@@ -2,19 +2,16 @@ class Solution {
 public:
     
     bool isCyclic(int curr, vector<vector<int>> &adj, vector<bool> vis, vector<bool> &chk){
-         if(vis[curr]){ //i visited this node earlier in this same iteration, so def cyclic;
+        if(vis[curr]){ //i visited this node earlier in this same iteration, so def cyclic;
             return 1;
-        }
-        if(chk[curr]){ //i've checked this node before and it's not cyclic;
-            return 0; 
         }
         vis[curr]=1;
         for(auto i: adj[curr]){
             if(!chk[i] && isCyclic(i, adj, vis, chk)){
+                //we not directly returning isCyclic here, cuz other node might be cyclic even if the curr node's not; 
                 return 1;
             }
         }
-        vis[curr]=0;
         chk[curr]=1;
         return 0;
     }
