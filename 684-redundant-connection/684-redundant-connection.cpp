@@ -31,3 +31,7 @@ public:
         return {};
     }
 };
+
+//since i have optimized this using path compression and union by rank, 
+//time complexity for find, will be O(alpha*N) which is O(1) in avg;
+//so final tc will be O(N);
