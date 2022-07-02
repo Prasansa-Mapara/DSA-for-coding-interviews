@@ -6,8 +6,7 @@ public:
         if(i==root[i]){
             return i;
         }
-        root[i]=find(root[i]);
-        return root[i];
+        return root[i]=find(root[i]);
     }
     
     int countComponents(int n, vector<vector<int>>& edges) {
@@ -31,7 +30,10 @@ public:
                     rank[rootY]+=rank[rootX];
                     root[rootX]=rootY;
                 }
-                sol--;
+                sol--; //since i have connected x and y by an edges now, 
+                //number of connected components will reduce by 1;
+                //ex: 1,2,3 -> conn=3
+                //1-2, 3 -> conn=2;
             }
         }
         
