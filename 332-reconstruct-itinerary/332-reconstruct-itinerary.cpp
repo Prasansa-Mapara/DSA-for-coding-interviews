@@ -1,20 +1,22 @@
 class Solution {
 public:
-    vector<string> sol;
     unordered_map<string, multiset<string>> hash;
+    vector<string> sol;
     
     void dfs(string curr){
         while(hash[curr].size()){
-            string tmp=*hash[curr].begin();
-            hash[curr].erase(hash[curr].begin());
-            dfs(tmp);
+            auto i=hash[curr].begin();
+            string s=*i;
+            hash[curr].erase(i);
+            dfs(s);
+            
         }
         sol.push_back(curr);
     }
     
     vector<string> findItinerary(vector<vector<string>>& tickets) {
-        for(auto x: tickets){
-            hash[x[0]].insert(x[1]);
+        for(auto i:tickets){
+            hash[i[0]].insert(i[1]);
         }
         dfs("JFK");
         reverse(sol.begin(), sol.end());
