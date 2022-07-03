@@ -1,43 +1,37 @@
 class Solution {
 public:
-    vector<int> root;
-    
-    int find(int i){
-        if(i==root[i]){
-            return i;
+    int find(int x, vector<int> &root){
+        if(x==root[x]){
+            return x;
         }
-        return root[i]=find(root[i]);
+        return x=find(root[x], root);
     }
     
     bool validTree(int n, vector<vector<int>>& edges) {
-        //if theres a cycle then the tree's not valid;
-        //this can be done by both union find and dfs;
-        //also the entire tree's connected, so #connectedComponents=1;
-        
-        vector<int> rank(n, 1);
-        root.resize(n);
+        //no cycle and they should all be connected;
+        int tmp=n;
+        vector<int> root(n), rank(n, 1);
         for(int i=0; i<n; i++){
             root[i]=i;
         }
-        
-        int conn=n;
-        
         for(auto i: edges){
-            int x=i[0], y=i[1];
-            int rx=find(x), ry=find(y);
-            if(rx==ry) return 0;
-            else if(rank[rx]>rank[ry]){
-                rank[rx]+=rank[ry];
+            int rx=find(i[0], root), ry=find(i[1], root);
+            if(rx==ry){ //since they're already in the same set, there's a cycle;
+                return 0;
+            }
+            if(rank[rx]<rank[ry]){
                 root[ry]=rx;
             }
-            else{
-                rank[ry]+=rank[rx];
+            else if(rank[ry]<rank[rx]){
                 root[rx]=ry;
             }
-            conn--;
+            else{
+                root[ry]=rx;
+                rank[rx]++;
+            }
+            tmp--;
         }
-        
-        if(conn==1) return 1;
-        return 0;
-    }
+        if(tmp!=1) return 0;
+        return 1;
+   }
 };
