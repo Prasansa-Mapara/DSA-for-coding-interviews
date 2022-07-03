@@ -22,16 +22,16 @@ public:
 class Solution {
 public:
     unordered_map<Node*, Node*> hash;
-    
+
     Node* cloneGraph(Node* node) {
         if(!node) return NULL;
-        if(hash.find(node)!=hash.end()) return hash[node];
-        
-        hash[node]=new Node(node->val);
-        for(auto x: node->neighbors){
-            hash[node]->neighbors.push_back(cloneGraph(x));
+        if(hash.find(node)!=hash.end()){
+            return hash[node];
         }
-        
+        hash[node]=new Node(node->val);
+        for(auto i: node->neighbors){
+            hash[node]->neighbors.push_back(cloneGraph(i));
+        }
         return hash[node];
     }
 };
