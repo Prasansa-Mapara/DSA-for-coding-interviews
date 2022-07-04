@@ -19,26 +19,21 @@ public:
 class Solution {
 public:
     Node* connect(Node* root) {
-        //level order traversal;
         if(!root) return NULL;
-        queue<Node*> q;
-        q.push(root);
-        while(q.size()){
-            int n=q.size();
-            while(n){
-                Node *curr=q.front();
-                q.pop();
-                if(n>1){
-                    curr->next=q.front();
-                }
+        Node *curr=root;
+        while(curr){
+            Node *tmp=curr;
+            while(curr){
                 if(curr->left){
-                    q.push(curr->left);
+                    curr->left->next=curr->right;
                 }
-                if(curr->right){
-                    q.push(curr->right);
+                else break;
+                if(curr->next){
+                    curr->right->next=curr->next->left;
                 }
-                n--;
+                curr=curr->next;
             }
+            curr=tmp->left;
         }
         return root;
     }
