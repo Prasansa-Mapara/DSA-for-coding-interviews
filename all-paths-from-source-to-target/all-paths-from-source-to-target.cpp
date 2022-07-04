@@ -1,26 +1,30 @@
 class Solution {
 public:
-    vector<vector<int>> sol;
-    
-    void dfs(vector<vector<int>> &adj, int curr, vector<int> tmp){
-        int n=adj.size();
-        if(curr==n-1){
-            sol.push_back(tmp);
-            return;
-        }
-        for(auto i: adj[curr]){
-            tmp.push_back(i);
-            dfs(adj, i, tmp);
-            tmp.pop_back();
-        }
-    }
-    
     vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph) {
-https://assets.leetcode.com/uploads/2020/09/28/all_1.jpg        //adj is already given;
-        int n=graph.size();
-        //0->n-1;
-        vector<int> tmp; tmp.push_back(0);
-        dfs(graph, 0, tmp);
-        return sol;
+        vector<vector<int>> paths;
+        if (graph.size() == 0) {
+            return paths;
+        }
+
+        vector<int> path;
+        queue<vector<int>> q;
+        path.push_back(0);
+        q.push(path);
+
+        while (!q.empty()) {
+            vector<int> currentPath = q.front();
+            q.pop();
+            int node = currentPath.back();
+            for (int nextNode : graph[node]) {
+                vector<int> tmpPath(currentPath.begin(), currentPath.end());
+                tmpPath.push_back(nextNode);
+                if (nextNode == graph.size() - 1) {
+                    paths.push_back(tmpPath);
+                } else {
+                    q.push(tmpPath);
+                }
+            }
+        }
+        return paths;
     }
 };
