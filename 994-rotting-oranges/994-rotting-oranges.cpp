@@ -1,54 +1,44 @@
+#define pii pair<int, int>
+#define ff first
+#define ss second
+
 class Solution {
 public:
     int orangesRotting(vector<vector<int>>& mat) {
-        //we doing bfs here;
-        queue<pair<int, int>> q; //it'll we store coordinates;
-        int r=mat.size(), c=mat[0].size(), fresh=0, mins=0;
-        //push all rotten oranges to the queue, cuz in first min, they will all convert thier neighboring fresh oranges into rotten;
+        queue<pii> q;
+        int fresh=0, r=mat.size(), c=mat[0].size();
         for(int i=0; i<r; i++){
             for(int j=0; j<c; j++){
-                if(mat[i][j]==1) fresh++;
-                else if(mat[i][j]==2){
+                if(mat[i][j]==2){
                     q.push({i, j});
                 }
+                else if(mat[i][j]==1){
+                    fresh++;
+                }
             }
         }
-        if(!fresh) return 0;
+        int mins=0;
+        vector<pii> dir={{0,1},{1,0},{-1,0},{0,-1}};
+        
         while(q.size()){
             int n=q.size();
-            mins++;
+            if(!fresh) return mins;
             while(n--){
-                int i=q.front().first, j=q.front().second;
+                int x=q.front().ff, y=q.front().ss;
                 q.pop();
-                //push all fresh oranges adjacent to it, as now they are rotten;
-                if(i+1<r && mat[i+1][j]==1){
-                    fresh--; //now its rotten;
-                    mat[i+1][j]=2;
-                    q.push({i+1, j});
-                }
-                if(i-1>=0 && mat[i-1][j]==1){
-                    fresh--; 
-                    mat[i-1][j]=2;
-                    q.push({i-1, j});
-                }
-                if(j+1<c && mat[i][j+1]==1){
-                    fresh--;
-                    mat[i][j+1]=2;
-                    q.push({i, j+1});
-                }
-                if(j-1>=0 && mat[i][j-1]==1){
-                    fresh--;
-                    mat[i][j-1]=2;
-                    q.push({i, j-1});
-                }
-                if(!fresh){
-                    return mins;
+                for(int i=0; i<4; i++){
+                    int xx=x+dir[i].ff, yy=y+dir[i].ss;
+                    if(xx>=0 && xx<r && yy>=0 && yy<c && mat[xx][yy]==1){
+                        mat[xx][yy]=2;
+                        q.push({xx, yy});
+                        fresh--;
+                    }
                 }
             }
+            mins++;
         }
-        if(fresh){ //if still there are any fresh oranges left, then return -1;
-            return -1;
-        }
+        
+        if(fresh) return -1;
         return mins;
     }
 };
