@@ -2,27 +2,33 @@ class Solution {
 public:
     int minCostConnectPoints(vector<vector<int>>& pts) {
         int n=pts.size();
-        vector<int> dist(n, INT_MAX); //this will store the minimum distance to reach the pt;
+        int cost=0;
+        vector<int> dst(n, INT_MAX);
+        //lets start from the first point;
+        dst[0]=0;
         unordered_set<int> hash;
-        dist[0]=0;
-        hash.insert(0);
-        int j=0, sol=0;
+        int curr=0;
+        hash.insert(curr);
         while(hash.size()<n){
-            int currMin=INT_MAX, ind; //this will store the min distance and its index;
-            hash.insert(j);
+            int curMin=INT_MAX; //min distance from the current pt 
+            //or from any of the connected points;
+            int nxtCur; //the next node that we'll consider;
+            hash.insert(curr);
             for(int i=0; i<n; i++){
-                if(hash.find(i)!=hash.end()) continue;
-                int currDist=abs(pts[i][0]-pts[j][0])+abs(pts[i][1]-pts[j][1]);
-                dist[i]=min(dist[i], currDist);
-                if(dist[i]<currMin){
-                    currMin=dist[i];
-                    ind=i;
+                if(hash.find(i)!=hash.end()){ //we've already taken this point;
+                    continue;
+                }
+                int curD=abs(pts[curr][0]-pts[i][0])+abs(pts[curr][1]-pts[i][1]);
+                dst[i]=min(curD, dst[i]);
+                if(dst[i]<curMin){
+                    curMin=dst[i];
+                    nxtCur=i; 
                 }
             }
-            if(currMin==INT_MAX) break;
-            sol+=currMin;
-            j=ind;
+            if(curMin==INT_MAX) break;
+            cost+=curMin;
+            curr=nxtCur;
         }
-        return sol;
+        return cost;
     }
 };
