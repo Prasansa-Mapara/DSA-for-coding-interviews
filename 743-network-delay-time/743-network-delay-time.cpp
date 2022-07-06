@@ -1,35 +1,37 @@
 #define pii pair<int, int>
+#define ff first
+#define ss second
 
 class Solution {
 public:
     int networkDelayTime(vector<vector<int>>& times, int n, int k) {
+        priority_queue<pii, vector<pii>, greater<pii>> pq; //time->node;
         vector<vector<pii>> adj(n+1);
-        for(auto x: times){
-            adj[x[0]].push_back({x[2], x[1]});
-        }
-        priority_queue<pii, vector<pii>, greater<pii>> pq; //min time will be first;
-        for(auto x: adj[k]){
-            pq.push(x); //this way the node with least time will always come first, so final ans will be minimum;
-        }
+        unordered_set<int> hash;
+        pq.push({0, k}); //it will always store min time;
         int sol=0;
-        unordered_set<int> hash; //keep track of visited nodes;
-        hash.insert(k);
+        
+        for(auto i: times){
+            adj[i[0]].push_back({i[1], i[2]});
+        }
+        
         while(pq.size()){
-            int time=pq.top().first, node=pq.top().second;
+            int currT=pq.top().ff, node=pq.top().ss;
             pq.pop();
-            if(hash.find(node)!=hash.end()){ //we've seen this node before;
-                continue;
-            }
+            if(hash.find(node)!=hash.end()) continue; //we've visited this node before;
             hash.insert(node);
-            for(auto x: adj[node]){
-                if(hash.find(x.second)!=hash.end()) continue;  //if node's already there, then no pt in pushing it to the pq;
-                pq.push({x.first+time, x.second}); //update time;
-            }
-            sol=max(sol, time);
-            if(hash.size()==n){ //all nodes are covered;
-                return sol;
+            sol=max(sol, currT);
+            
+            for(auto i: adj[node]){
+                int newNode=i.ff, newTime=i.ss;
+                if(hash.find(newNode)!=hash.end()){
+                    continue;
+                }
+                pq.push({currT+newTime, newNode});
             }
         }
-        return -1;
+        
+        if(hash.size()<n) return -1; //all the nodes were not covered;
+        return sol;
     }
 };
