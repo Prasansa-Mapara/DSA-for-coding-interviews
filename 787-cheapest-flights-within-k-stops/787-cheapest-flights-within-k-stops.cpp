@@ -1,42 +1,29 @@
-#define pii pair<int, int>
-#define ppi pair<int, pii>
-#define ff first
-#define ss second
-
 class Solution {
 public:
     int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
-        priority_queue<ppi, vector<ppi>, greater<ppi>> pq; //{price, {dest, stops}};
-        pq.push({0, {src, 0}});
-        vector<vector<pii>> adj(n);
-        for(auto f: flights){
-            adj[f[0]].push_back({f[2], f[1]}); //source->[{price, dest}];
-        }
-        vector<pii> dp(n); //{price, stops};
-        for(int i=0; i<n; i++){
-            dp[i]={INT_MAX, INT_MAX}; //initially the price to reach all nodes is inf,
-            //and so are the number of stops;
-        }
-        dp[src]={0, 0};
+        //it is a weighted graph;
+        //since weight's the cost, it will never be negative;
+        //there's a single source;
+        //we can use dijkstra, and keep track of k;
+        //or we can use dp(bellman ford), and it will relax at most k times;
         
-        while(pq.size()){
-            int price=pq.top().ff, curr=pq.top().ss.ff, stop=pq.top().ss.ss;
-            pq.pop();
-            
-            if(curr==dst) return price;
-            if(stop==k+1) continue;
-            
-            for(auto p: adj[curr]){ //p will be a pair;
-                int newP=p.ff, newD=p.ss;
-                if(newP+price < dp[newD].ff){
-                    pq.push({newP+price, {newD, stop+1}});
-                    dp[newD]={newP+price, stop};
+        vector<vector<int>> dp(k+1, vector<int>(n, INT_MAX)); //dp[i][j] is cost needed to reach j in at most i iterations;
+        //for all iterations, the price to reach the source node is 0;
+        for(int i=0; i<=k; i++){
+            dp[i][src]=0;
+        }
+        for(int i=0; i<=k; i++){
+            for(auto f: flights){
+                int u=f[0], v=f[1], cst=f[2];
+                if(i==0){
+                    if(u==src){
+                        dp[i][v]=cst;
+                    }
                 }
-                else if(stop < dp[newD].ss){
-                    pq.push({newP+price, {newD, stop+1}});
-                }
+                else if(dp[i-1][u]!=INT_MAX) dp[i][v]=min(dp[i][v], dp[i-1][u]+cst);
             }
         }
-        return -1;
+        
+        return dp[k][dst]==INT_MAX?-1: dp[k][dst]; 
     }
 };
