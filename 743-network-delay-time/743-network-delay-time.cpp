@@ -5,33 +5,64 @@
 class Solution {
 public:
     int networkDelayTime(vector<vector<int>>& times, int n, int k) {
-        priority_queue<pii, vector<pii>, greater<pii>> pq; //time->node;
-        vector<vector<pii>> adj(n+1);
-        unordered_set<int> hash;
-        pq.push({0, k}); //it will always store min time;
-        int sol=0;
+        //here, there's only one source(k);
+        //graph doesn't have any negative weights;
+        //we need the shortest path;
+        //min time will be the max time at which signal reaches all nodes;
+        //so we want the max time to be least, so, signal should reach all nodes at least possible time;
+        //so it is a shortest path question;
+        //hence, Dijsktra's algo;
         
+        /*priority_queue<pii, vector<pii>, greater<pii>> pq; //{time->node}
+        vector<bool> vis(n+1, 0);
+        int cnt=0, sol=0; //cnt will keep track of the number of visited nodes;
+        
+        vector<vector<pii>> adj(n+1);
         for(auto i: times){
             adj[i[0]].push_back({i[1], i[2]});
         }
         
-        while(pq.size()){
-            int currT=pq.top().ff, node=pq.top().ss;
+        pq.push({0, k});
+        while(cnt<n && pq.size()){
+            int time=pq.top().ff, node=pq.top().ss;
             pq.pop();
-            if(hash.find(node)!=hash.end()) continue; //we've visited this node before;
-            hash.insert(node);
-            sol=max(sol, currT);
+            if(vis[node]) continue;
+            vis[node]=1;
+            cnt++;
+            sol=max(sol, time);
             
             for(auto i: adj[node]){
-                int newNode=i.ff, newTime=i.ss;
-                if(hash.find(newNode)!=hash.end()){
-                    continue;
-                }
-                pq.push({currT+newTime, newNode});
+                int curTime=i.ss, curNode=i.ff;
+                if(vis[curNode]) continue;
+                pq.push({time+curTime, curNode});
             }
         }
         
-        if(hash.size()<n) return -1; //all the nodes were not covered;
-        return sol;
+        if(cnt<n) return -1; //all nodes were not covered;
+        return sol;*/
+        
+        
+        //trying the same using bellman ford (i.e. dp) algo;
+        
+        vector<vector<int>> dp(n, vector<int>(n+1, INT_MAX));
+        for(int i=0; i<n; i++){
+            dp[i][k]=0; //time taken by a signal to reach the source node with at most i relaxations;
+        }
+        int ind=n-1;
+        for(int i=1; i<n; i++){ //cuz with 0 relaxations, it can only reach src node;
+            for(auto t: times){
+                int u=t[0], v=t[1], w=t[2];
+                if(dp[i-1][u]!=INT_MAX) dp[i][v]=min(dp[i-1][u]+w, dp[i][v]);
+            }
+            if(dp[i]==dp[i-1]){
+                ind=i;
+                break;
+            }
+        }
+        int sol=0;
+        for(int i=1; i<=n; i++){
+            sol=max(sol, dp[ind][i]);
+        }
+        return sol==INT_MAX?-1: sol;
     }
 };
