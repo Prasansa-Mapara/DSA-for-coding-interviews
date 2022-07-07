@@ -3,23 +3,25 @@ public:
     bool canCross(vector<int>& stones) {
         unordered_map<int, unordered_set<int>> hash;
         int n=stones.size();
-        for(int i=0; i<n; i++){
-            hash[stones[i]]={};
+        for(auto i: stones){
+            hash[i]={};
         }
-        hash[stones[0]].insert(0); //pos->set of jump sizes to reach that pos;
+        hash[stones[0]].insert(0); //0 jumps to reach 1st stone;
+        
         for(int i=0; i<n; i++){
-            int curr=stones[i];
-            for(auto j: hash[stones[i]]){
+            int pos=stones[i];
+            for(auto j: hash[pos]){ //j is number of jumps needed to reach pos;
                 for(int jump=j-1; jump<=j+1; jump++){
-                    if(jump<1) continue;
-                    if(hash.find(curr+jump)!=hash.end()){
-                        hash[curr+jump].insert(jump);
-                        if(curr+jump==stones[n-1]) return 1;
+                    if(jump<1) continue; //staying at same pos or going down;
+                    int nextPos=pos+jump;
+                    if(nextPos==stones[n-1]) return 1;
+                    if(hash.find(nextPos)!=hash.end()){ //if next pos is a valid pos;
+                        hash[nextPos].insert(jump);
                     }
                 }
             }
         }
         
-        return hash[stones[n-1]].size()>0;
+        return 0;
     }
 };
