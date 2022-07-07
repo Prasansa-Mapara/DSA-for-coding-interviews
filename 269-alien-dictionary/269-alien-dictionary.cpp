@@ -1,8 +1,9 @@
 class Solution {
 public:
-    string sol;
+    string s;
+    vector<bool> chk;
     
-    bool isCyclic(char curr, unordered_map<char, unordered_set<char>> &adj, vector<int> vis, vector<int> &chk){
+    bool isCyc(unordered_map<char, unordered_set<char>> &hash, char curr, vector<bool> vis){
         if(vis[curr-'a']){
             return 1;
         }
@@ -10,59 +11,56 @@ public:
             return 0;
         }
         vis[curr-'a']=1;
-        for(auto c: adj[curr]){
-            if(!chk[c-'a'] && isCyclic(c, adj, vis, chk)){
+        
+        for(auto c: hash[curr]){
+            if(!chk[c-'a'] && isCyc(hash, c, vis)){
                 return 1;
             }
         }
         chk[curr-'a']=1;
-        sol.push_back(curr);
+        s.push_back(curr);
         return 0;
     }
     
     string alienOrder(vector<string>& words) {
-        //if you observe it, its a graph problem, tht too scheduling;
-        //so post-order dfs will do :)
-        //nodes are the letters;
-        
-        int n=words.size();
-        unordered_map<char, unordered_set<char>> adj; //graph;
-        //since mapping's repeated we using a set, so for that, we using a map;
+        unordered_map<char, unordered_set<char>> hash;
         
         for(auto s: words){
             for(auto c: s){
-                adj[c]={}; //some nodes might not be mapped to any, so we need to store all the chars;
+                hash[c]={};
             }
         }
         
-        //now make the graph;
+        int n=words.size();
         for(int i=1; i<n; i++){
-            string s=words[i-1], t=words[i];
-            int sz=min(s.size(), t.size());
-            bool fl=0;
+            string s1=words[i-1], s2=words[i];
+            int sz=min(s1.size(), s2.size());
+            bool flag=0;
             for(int j=0; j<sz; j++){
-                if(s[j]!=t[j]){
-                    adj[s[j]].insert(t[j]);
-                    fl=1;
+                if(s1[j]!=s2[j]){
+                    flag=1;
+                    hash[s1[j]].insert(s2[j]);
                     break;
                 }
             }
-            if(!fl){
-                if(s.size()>t.size()){
+            if(!flag){
+                if(s1.size()>s2.size()){
                     return "";
                 }
             }
         }
         
-        //graph's ready;
-        vector<int> vis(26, 0), chk(26, 0);
-        for(auto i: adj){
+        vector<bool> vis(26, 0);
+        chk=vis;
+        
+        for(auto i: hash){
             char c=i.first;
-            if(!chk[c-'a'] && isCyclic(c, adj, vis, chk)){
+            if(!chk[c-'a'] && isCyc(hash, c, vis)){
                 return "";
             }
         }
         
-        return {sol.rbegin(), sol.rend()};
+        reverse(s.begin(), s.end());
+        return s;
     }
 };
