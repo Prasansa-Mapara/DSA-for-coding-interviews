@@ -19,6 +19,7 @@ class Solution
         for(int i=2; i<=n; i++){
             if(i+1<=n)dp[i+1]=min(dp[i+1], dp[i]+1);
             if(2*i<=n)dp[2*i]=min(dp[2*i], dp[i]+1);
+            if(dp[n]!=INT_MAX) return dp[n];
         }
         return dp[n];
     }
