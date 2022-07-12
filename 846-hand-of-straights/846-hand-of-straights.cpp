@@ -1,35 +1,24 @@
-#define ss second
 #define ff first
 
 class Solution {
 public:
     bool isNStraightHand(vector<int>& hand, int sz) {
-        int n=hand.size(); 
-        if(n%sz) return 0;
         map<int, int> hash;
-
         for(auto i: hand){
             hash[i]++;
         }
-        
         while(hash.size()){
-            auto i=hash.begin();
-            if(i->ss){ //if this card is present, then we want sz consecutive cards;
-                int curr=i->ff;
-                for(int j=0; j<sz; j++){
-                    if(hash[curr+j]>0){
-                        hash[curr+j]--;
-                        if(hash[curr+j]==0){
-                            hash.erase(hash.find(curr+j));
-                        }
-                    }
-                    else{
-                        return 0;
+            int curr=hash.begin()->ff;
+            for(int i=0; i<sz; i++){
+                if(hash[curr+i]==0) return 0; //cuz this element isn't present;
+                else{
+                    hash[curr+i]--;
+                    if(hash[curr+i]==0){
+                        hash.erase(hash.find(curr+i));
                     }
                 }
             }
-        }  
-        
+        }
         return 1;
     }
 };
