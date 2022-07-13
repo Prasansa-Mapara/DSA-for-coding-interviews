@@ -1,13 +1,16 @@
 class Solution {
 public:
-    bool canAttendMeetings(vector<vector<int>>& v) {
-        sort(v.begin(), v.end());
-        int n=v.size();
+    bool canAttendMeetings(vector<vector<int>>& time) {
+        int n=time.size();
+        sort(time.begin(), time.end());
         for(int i=1; i<n; i++){
-            if(v[i][0]<v[i-1][1]){
-                return false;
+            if(time[i][0]>=time[i-1][1]){
+                time[i][1]=max(time[i][1], time[i-1][1]);
+            }
+            else{
+                return 0;
             }
         }
-        return true;
+        return 1;
     }
 };
