@@ -1,29 +1,30 @@
 class Solution {
 public:
     string minWindow(string s, string t) {
-        int n=s.length(), m=t.length();
+        int n=s.size(), m=t.size();
         if(n<m) return "";
-        int len=n+1, sInd=-1, j=0, cnt=0;
         unordered_map<char, int> hash, freq;
-        for(auto c: t) freq[c]++;
-        for(int i=0; i<n; i++){
-            hash[s[i]]++;
-            if(hash[s[i]]<=freq[s[i]]){ //this char is present in t,
-                //and it isnt been calculated yet, so do this;
+        for(auto i: t) freq[i]++;
+        int st=0, ed=0, sz=n+1, ind=-1, cnt =0;
+        
+        while(ed<n){
+            hash[s[ed]]++;
+            if(hash[s[ed]]<=freq[s[ed]]){
                 cnt++;
             }
             if(cnt==m){
-                while(hash[s[j]]>freq[s[j]]){
-                    hash[s[j]]--;
-                    j++;
+                while(hash[s[st]]>freq[s[st]]){
+                    hash[s[st]]--;
+                    st++;
                 }
-                if(i-j+1<len){
-                    len=i-j+1;
-                    sInd=j;
+                if(ed-st+1<sz){
+                    sz=ed-st+1;
+                    ind=st;
                 }
             }
+            ed++;
         }
-        if(sInd==-1) return "";
-        return s.substr(sInd, len);
+        
+        return ind==-1?"":s.substr(ind, sz);
     }
 };
