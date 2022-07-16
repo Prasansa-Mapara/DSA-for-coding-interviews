@@ -1,34 +1,46 @@
 class Solution {
 public:
-    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
-        int n1=nums1.size(), n2=nums2.size();
-        if(n2<n1) return findMedianSortedArrays(nums2, nums1);
-        int lo=0, hi=n1;
-        int n1l, n1r, n2l, n2r;
-        while(lo<=hi){
-            int mid=lo+(hi-lo)/2;
-            int rem=(n1+n2+1)/2-mid;
-            n1l=(mid>0?nums1[mid-1]:INT_MIN);
-            n1r=(mid<n1?nums1[mid]:INT_MAX);
-            n2l=(rem>0?nums2[rem-1]:INT_MIN);
-            n2r=(rem<n2?nums2[rem]:INT_MAX);
+    double findMedianSortedArrays(vector<int>& a, vector<int>& b) {
+        int na=a.size(), nb=b.size();
+        if(nb<na) return findMedianSortedArrays(b, a); //cuz we want a to be smaller;
+        
+        
+        int total=na+nb; //size of final array;
+        int half=(total+1)/2;
+        
+        //we are doing binary search on the smaller array;        
+        int l=0, r=na;
+        
+        while(l<=r){
+            //i will pt to mid of a, and j will point to mid of b;
+            int i=l+(r-l)/2;
+            int j=half-i; //cuz of 0-based indexing;
+            int aleft=(i-1<0)?INT_MIN:a[i-1];
+            int aright=(i>=na)?INT_MAX:a[i];
+            int bleft=(j-1<0)?INT_MIN:b[j-1];
+            int bright=(j>=nb)?INT_MAX:b[j];
             
-            if(n1l<=n2r && n1r>=n2l){
-                int n=n1+n2;
-                if(n%2){
-                    return (double)max(n1l, n2l);
+            //now we are checking if my partitions are correct;
+            if(aleft<=bright && bleft<=aright){
+                if(total%2){ 
+                    return (double)max(aleft, bleft);
                 }
                 else{
-                    return (double)(max(n1l, n2l)+min(n1r, n2r))/2.0;
+                    return (double) (max(aleft, bleft)+min(aright, bright))/2.0;
                 }
             }
-            else if(n1l>n2r){
-                hi=mid-1;
+            else if(aleft>bright){
+                r=i-1;
             }
             else{
-                lo=mid+1;
+                l=i+1;
             }
         }
+        
         return 0;
     }
 };
+
+//in given case, a=[2]
+//b=[1,3]
+//half in odd case means median will be after those many elements;
