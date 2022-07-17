@@ -1,14 +1,18 @@
-bool cmp(vector<int> a, vector<int> b){
-    return a[0]*a[0]+a[1]*a[1]<b[0]*b[0]+b[1]*b[1];
-}
-
 class Solution {
 public:
-    vector<vector<int>> kClosest(vector<vector<int>>& pts, int k) {
-        //can do using quick select; 
-        //it has a cute stl implementation, so will use it :)
-        
-        nth_element(pts.begin(), pts.begin()+k, pts.end(), cmp); //here it will be one indexed, so with k its actually k-1;
-        return vector<vector<int>> (pts.begin(), pts.begin()+k);
+    vector<vector<int>> kClosest(vector<vector<int>>& points, int k) {
+        priority_queue<pair<int, vector<int>>> pq; //max heap;
+        for(auto pt: points){
+            int x=pt[0], y=pt[1];
+            int distance=(x*x)+(y*y);
+            pq.push({distance, pt});
+            if(pq.size()>k) pq.pop();
+        }
+        vector<vector<int>> sol;
+        while(pq.size()){
+            sol.push_back(pq.top().second);
+            pq.pop();
+        }
+        return sol;
     }
 };
