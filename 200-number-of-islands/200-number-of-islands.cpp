@@ -1,6 +1,7 @@
 class Solution {
 public:
     vector<vector<char>> mat;
+    vector<vector<int>> dir={{0, 1}, {0, -1}, {-1, 0}, {1, 0}};
     
     void dfs(int i, int j){
         int r=mat.size(), c=mat[0].size();
@@ -11,10 +12,10 @@ public:
             return;
         }
         mat[i][j]='0'; //marked as visited;
-        dfs(i+1, j);
-        dfs(i-1, j);
-        dfs(i, j+1);
-        dfs(i, j-1);
+        for(auto curr: dir){
+            int x=curr[0], y=curr[1];
+            dfs(i+x, j+y);
+        }
         return;
     }
     
